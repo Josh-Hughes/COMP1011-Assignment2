@@ -11,14 +11,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class Cards extends JButton{
+	private static final long serialVersionUID = 529663813111176555L;
 	//Object variables
 	private Icon cardNumber;
+	private Icon cardBack;
+	private String cardIdentity;
 	
 	public Cards() {
 		super();
 		
 		//Load images for the card button
-		Icon cardBack = null;
 		Icon cardBackHighLight = null;
 		try{
 			cardBack = new ImageIcon(ImageIO.read(new File("resources/img/cardback.png")));
@@ -46,16 +48,23 @@ public class Cards extends JButton{
 		//Set the listener class for the button
 		this.addActionListener(new cardClickedListener());
 		
+		//Set the identity of the random card
+		cardIdentity = setRandomCard();
+		
 		//Set the random card
 		try{
-			cardNumber = new ImageIcon(ImageIO.read(new File("resources/img/card_"+setRandomCard()+".png")));
+			cardNumber = new ImageIcon(ImageIO.read(new File("resources/img/card_"+cardIdentity+".png")));
 		}catch(IOException e){
 			e.printStackTrace();
 		}
 		
 	}
 	
-	public String setRandomCard(){
+	public String getCardIdentity(){
+		return cardIdentity;
+	}
+	
+	private String setRandomCard(){
 		String card = "";
 		
 		card += (int) (Math.random() * 10 + 1);
@@ -75,6 +84,11 @@ public class Cards extends JButton{
 		}
 		
 		return card;
+	}
+	
+	public void hideCards(){
+		setRolloverEnabled(true);
+		setIcon(cardBack);
 	}
 	
 	class cardClickedListener implements ActionListener{

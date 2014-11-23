@@ -29,16 +29,16 @@ public class GameFrame extends JFrame{
 	private JButton cheatButton;
 	
 	private final int SCREEN_WIDTH = 310;
-	private final int SCREEN_HEIGHT = 480;
+	private final int SCREEN_HEIGHT = 500;
 	
 	private final int CARDS_PER_ROW = 4;
 	private final int CARDS_PER_COLUMN = 4;
 	private final int AMOUNT_OF_CARDS = CARDS_PER_COLUMN * CARDS_PER_ROW;
 	
-	private final String[] DECK = {"1c","2c","3c","4c","5c","6c","7c","8c","9c","10c",
+	/*private final String[] DECK = {"1c","2c","3c","4c","5c","6c","7c","8c","9c","10c",
 									"1d","2d","3d","4d","5d","6d","7d","8d","9d","10d",
 									"1h","2h","3h","4h","5h","6h","7h","8h","9h","10h",
-									"1s","2s","3s","4s","5s","6s","7s","8s","9s","10s"};
+									"1s","2s","3s","4s","5s","6s","7s","8s","9s","10s"};*/
 
 	private JLabel highScoreText;
 	private JLabel timerText;
@@ -46,10 +46,13 @@ public class GameFrame extends JFrame{
 	private JLabel highScore;
 	private JLabel timer;
 	private JLabel score;
+	private JLabel userMessage;
 
 	private JPanel labelPanel;
 	private JPanel cardsPanel;
 	private JPanel buttonPanel;
+	private JPanel userMessagePanel;
+	private JPanel topContainer;
 	
 	//private JButton[] cards;
 	private Cards[] cards;
@@ -69,11 +72,14 @@ public class GameFrame extends JFrame{
 		
 		// Create the layout panels.
 		labelPanel = new JPanel(new GridLayout(2, 3));
+		userMessagePanel = new JPanel(new FlowLayout());
 		cardsPanel = new JPanel(new GridLayout(CARDS_PER_ROW,CARDS_PER_COLUMN));
 		buttonPanel = new JPanel(new GridLayout(1, 3));
+		topContainer = new JPanel(new GridLayout(2,1));
 
 		// Add panels to window.
-		add(labelPanel, BorderLayout.NORTH);
+		//add(labelPanel, BorderLayout.NORTH);
+		add(topContainer, BorderLayout.NORTH);
 		add(cardsPanel, BorderLayout.CENTER);
 		add(buttonPanel, BorderLayout.SOUTH);
 
@@ -94,6 +100,7 @@ public class GameFrame extends JFrame{
 		highScore = new JLabel("####", SwingConstants.CENTER);
 		timer = new JLabel("##", SwingConstants.CENTER);
 		score = new JLabel("####", SwingConstants.CENTER);
+		userMessage = new JLabel("####################", SwingConstants.LEFT);
 
 		// Add labels to label panel.
 		labelPanel.add(highScoreText);
@@ -103,8 +110,16 @@ public class GameFrame extends JFrame{
 		labelPanel.add(timer);
 		labelPanel.add(score);
 		
+		// Add message to message panel
+		userMessagePanel.add(userMessage);
+		
+		//Add the labels and the user message to the top container
+		topContainer.add(labelPanel, BorderLayout.NORTH);
+		topContainer.add(userMessagePanel, BorderLayout.CENTER);
+		
 		//Border for the game panel
 		cardsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		
 		/*cards = new Cards();
 		cardsPanel.add(cards);*/
 		
@@ -133,6 +148,8 @@ public class GameFrame extends JFrame{
 		for(int x=0; x<AMOUNT_OF_CARDS; x++){
 			cards[x] = new Cards();
 			cardsPanel.add(cards[x]);
+			
+			//System.out.println(cards[x].getCardIdentity());
 		}
 
 		//Add button handling
@@ -148,7 +165,11 @@ public class GameFrame extends JFrame{
 		
 		cheatButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				
+				for(int x=0; x<AMOUNT_OF_CARDS; x++){
+					cards[x].hideCards();
+					
+					//System.out.println(cards[x].getCardIdentity());
+				}
 			}//action performed
 		});
 		
