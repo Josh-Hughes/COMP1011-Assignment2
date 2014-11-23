@@ -28,12 +28,17 @@ public class GameFrame extends JFrame{
 	private JButton exitButton;
 	private JButton cheatButton;
 	
-	private final int SCREEN_WIDTH = 340;
-	private final int SCREEN_HEIGHT = 400;
+	private final int SCREEN_WIDTH = 310;
+	private final int SCREEN_HEIGHT = 480;
 	
 	private final int CARDS_PER_ROW = 4;
 	private final int CARDS_PER_COLUMN = 4;
 	private final int AMOUNT_OF_CARDS = CARDS_PER_COLUMN * CARDS_PER_ROW;
+	
+	private final String[] DECK = {"1c","2c","3c","4c","5c","6c","7c","8c","9c","10c",
+									"1d","2d","3d","4d","5d","6d","7d","8d","9d","10d",
+									"1h","2h","3h","4h","5h","6h","7h","8h","9h","10h",
+									"1s","2s","3s","4s","5s","6s","7s","8s","9s","10s"};
 
 	private JLabel highScoreText;
 	private JLabel timerText;
@@ -46,7 +51,8 @@ public class GameFrame extends JFrame{
 	private JPanel cardsPanel;
 	private JPanel buttonPanel;
 	
-	private JButton[] cards;
+	//private JButton[] cards;
+	private Cards cards;
 
 	public GameFrame() {
 		//Call to the super class JFRAME
@@ -97,8 +103,13 @@ public class GameFrame extends JFrame{
 		labelPanel.add(timer);
 		labelPanel.add(score);
 		
+		//Border for the game panel
+		cardsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		cards = new Cards();
+		cardsPanel.add(cards);
+		
 		//Set back of cards
-		Icon cardBack = null;
+		/*Icon cardBack = null;
 		Icon cardBackHighLight = null;
 		try{
 			cardBack = new ImageIcon(ImageIO.read(new File("resources/img/cardback.png")));
@@ -115,17 +126,21 @@ public class GameFrame extends JFrame{
 		
 		//Setting the array of cards
 		cards = new JButton[AMOUNT_OF_CARDS];
+		cardsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		
 		for(int x=0; x<AMOUNT_OF_CARDS; x++){
 			cards[x] = new JButton(cardBack);
 			cards[x].setRolloverIcon(cardBackHighLight);
+			cards[x].setOpaque(false);
+			cards[x].setContentAreaFilled(false);
+			cards[x].setBorderPainted(false);
 			cardsPanel.add(cards[x]);
-		}
+		}*/
 
 		//Add button handling
 		/*exitButton.addActionListener(new ExitButtonListener());
-		cheatButton.addActionListener(new CheatButtonListener());
-		playButton.addActionListener(new PlayButtonListener());*/
+		cheatButton.addActionListener(new CheatButtonListener());*/
+		playButton.addActionListener(new PlayButtonListener());
 		
 		exitButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -139,11 +154,11 @@ public class GameFrame extends JFrame{
 			}//action performed
 		});
 		
-		playButton.addActionListener(new ActionListener(){
+		/*playButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				
 			}//action performed
-		});
+		});*/
 		
 	}//constructor
 	
@@ -160,14 +175,15 @@ public class GameFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			
 		}//action performed
-	}//cheat button listener
+	}//cheat button listener*/
 	
 	class PlayButtonListener implements ActionListener{
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			//Set the array of cards with random cards
+			
 			
 		}//action performed
-	}//play button listener*/
+	}//play button listener
 	
 }//END
