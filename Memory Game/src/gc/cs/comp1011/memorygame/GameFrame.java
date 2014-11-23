@@ -52,7 +52,7 @@ public class GameFrame extends JFrame{
 	private JPanel buttonPanel;
 	
 	//private JButton[] cards;
-	private Cards cards;
+	private Cards[] cards;
 
 	public GameFrame() {
 		//Call to the super class JFRAME
@@ -105,8 +105,8 @@ public class GameFrame extends JFrame{
 		
 		//Border for the game panel
 		cardsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		cards = new Cards();
-		cardsPanel.add(cards);
+		/*cards = new Cards();
+		cardsPanel.add(cards);*/
 		
 		//Set back of cards
 		/*Icon cardBack = null;
@@ -126,16 +126,14 @@ public class GameFrame extends JFrame{
 		
 		//Setting the array of cards
 		cards = new JButton[AMOUNT_OF_CARDS];
-		cardsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		cardsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));*/
+		
+		cards = new Cards[AMOUNT_OF_CARDS];
 		
 		for(int x=0; x<AMOUNT_OF_CARDS; x++){
-			cards[x] = new JButton(cardBack);
-			cards[x].setRolloverIcon(cardBackHighLight);
-			cards[x].setOpaque(false);
-			cards[x].setContentAreaFilled(false);
-			cards[x].setBorderPainted(false);
+			cards[x] = new Cards();
 			cardsPanel.add(cards[x]);
-		}*/
+		}
 
 		//Add button handling
 		/*exitButton.addActionListener(new ExitButtonListener());
