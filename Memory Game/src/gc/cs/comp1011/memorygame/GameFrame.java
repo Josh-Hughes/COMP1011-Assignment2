@@ -64,6 +64,8 @@ public class GameFrame extends JFrame{
 	//private JButton[] cards;
 	private Cards[] cards;
 
+	private Scoreboard scoreboard;
+	
 	public GameFrame() {
 		//Call to the super class JFRAME
 		super("Memory Game");
@@ -77,6 +79,9 @@ public class GameFrame extends JFrame{
 		getRootPane().setWindowDecorationStyle( JRootPane.QUESTION_DIALOG );
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		// Create the score board.
+		scoreboard = new Scoreboard();
+
 		// Create the layout panels.
 		labelPanel = new JPanel(new GridLayout(2, 3));
 		userMessagePanel = new JPanel(new FlowLayout());
@@ -106,7 +111,7 @@ public class GameFrame extends JFrame{
 		timerText = new JLabel("Time", SwingConstants.CENTER);
 		timer = new JLabel("##", SwingConstants.CENTER);
 		scoreText = new JLabel("Score", SwingConstants.CENTER);
-		score = new JLabel("####", SwingConstants.CENTER);
+		score = new JLabel(scoreboard.toString(), SwingConstants.CENTER);
 		userMessage = new JLabel(userMessages[0], SwingConstants.LEFT);
 
 		// Add labels to label panel.
