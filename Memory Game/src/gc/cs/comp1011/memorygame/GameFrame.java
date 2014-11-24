@@ -35,6 +35,13 @@ public class GameFrame extends JFrame{
 	private final int CARDS_PER_COLUMN = 4;
 	private final int AMOUNT_OF_CARDS = CARDS_PER_COLUMN * CARDS_PER_ROW;
 	
+	private final String[] userMessages = {
+		"Pick a card, any card.",
+		"Now pick another card.",
+		"Right! Pick again...",
+		"Wrong! Pick again..."
+	};
+	
 	/*private final String[] DECK = {"1c","2c","3c","4c","5c","6c","7c","8c","9c","10c",
 									"1d","2d","3d","4d","5d","6d","7d","8d","9d","10d",
 									"1h","2h","3h","4h","5h","6h","7h","8h","9h","10h",
@@ -95,12 +102,12 @@ public class GameFrame extends JFrame{
 
 		// Create the labels.
 		highScoreText = new JLabel("High Score", SwingConstants.CENTER);
-		timerText = new JLabel("Time", SwingConstants.CENTER);
-		scoreText = new JLabel("Score", SwingConstants.CENTER);
 		highScore = new JLabel("####", SwingConstants.CENTER);
+		timerText = new JLabel("Time", SwingConstants.CENTER);
 		timer = new JLabel("##", SwingConstants.CENTER);
+		scoreText = new JLabel("Score", SwingConstants.CENTER);
 		score = new JLabel("####", SwingConstants.CENTER);
-		userMessage = new JLabel("####################", SwingConstants.LEFT);
+		userMessage = new JLabel(userMessages[0], SwingConstants.LEFT);
 
 		// Add labels to label panel.
 		labelPanel.add(highScoreText);

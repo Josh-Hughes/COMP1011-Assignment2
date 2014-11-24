@@ -10,12 +10,15 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-public class Cards extends JButton{
+public class Cards extends JButton {
 	private static final long serialVersionUID = 529663813111176555L;
 	//Object variables
 	private Icon cardNumber;
 	private Icon cardBack;
 	private String cardIdentity;
+	
+	private final int CARD_WIDTH = 65;
+	private final int CARD_HEIGHT = 87;
 	
 	public Cards() {
 		super();
@@ -44,6 +47,9 @@ public class Cards extends JButton{
 		setOpaque(false);
 		setContentAreaFilled(false);
 		setBorderPainted(false);
+		
+		// Set the card size.
+		setSize(CARD_WIDTH, CARD_HEIGHT);
 		
 		//Set the listener class for the button
 		this.addActionListener(new cardClickedListener());
