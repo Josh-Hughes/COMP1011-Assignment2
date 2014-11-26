@@ -61,9 +61,9 @@ public class GameFrame extends JFrame {
 		setLayout(new BorderLayout());
 		setUndecorated(true);
 		setResizable(false);
-		setLocationRelativeTo(null);
 		setSize(SCREEN_WIDTH,SCREEN_HEIGHT);
 		getRootPane().setWindowDecorationStyle( JRootPane.QUESTION_DIALOG );
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// Create the score board.
