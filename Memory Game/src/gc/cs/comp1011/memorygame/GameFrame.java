@@ -153,57 +153,43 @@ public class GameFrame extends JFrame {
 		}
 
 		//Add button handling
-		/*exitButton.addActionListener(new ExitButtonListener());
-		cheatButton.addActionListener(new CheatButtonListener());*/
+		exitButton.addActionListener(new ExitButtonListener());
+		cheatButton.addActionListener(new CheatButtonListener());
 		playButton.addActionListener(new PlayButtonListener());
 		
-		exitButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				//userMessage.setText(GameMessages.SECOND_CARD.getMessage());
-				System.exit(0);
-			}//action performed
-		});
-		
-		cheatButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				for(int x=0; x<AMOUNT_OF_CARDS; x++){
-					cards[x].hideCards();
-					
-					//System.out.println(cards[x].getCardIdentity());
-				}
-			}//action performed
-		});
-		
-		/*playButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				
-			}//action performed
-		});*/
-		
-	}//constructor
+	} //constructor
 	
-	/*class ExitButtonListener implements ActionListener{
+	class ExitButtonListener implements ActionListener {
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			//userMessage.setText(GameMessages.SECOND_CARD.getMessage());
 			System.exit(0);
-		}//action performed
-	}//exit button listener
+		}
+		
+	}
 	
-	class CheatButtonListener implements ActionListener{
+	class CheatButtonListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-		}//action performed
-	}//cheat button listener*/
+			for(int x=0; x<AMOUNT_OF_CARDS; x++){
+				cards[x].hideCards();
+					
+				//System.out.println(cards[x].getCardIdentity());
+			}
+		}
+		
+	}
 	
-	class PlayButtonListener implements ActionListener{
+	class PlayButtonListener implements ActionListener {
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			//Set the array of cards with random cards
 			
-			
-		}//action performed
-	}//play button listener
+		}
+
+	}
 	
-}//END
+}
