@@ -12,18 +12,14 @@ import javax.swing.JButton;
 
 public class Card extends JButton {
 	private static final long serialVersionUID = 529663813111176555L;
-	
 	//Object variables
 	private Icon cardNumber;
 	private Icon cardBack;
 	private String cardIdentity;
 	
-	private final int CARD_WIDTH = 65;
-	private final int CARD_HEIGHT = 87;
-	
 	public Card() {
 		super();
-		
+
 		//Load images for the card button
 		Icon cardBackHighLight = null;
 		try{
@@ -49,48 +45,42 @@ public class Card extends JButton {
 		setContentAreaFilled(false);
 		setBorderPainted(false);
 		
-		// Set the card size.
-		setSize(CARD_WIDTH, CARD_HEIGHT);
-		
 		//Set the listener class for the button
 		this.addActionListener(new cardClickedListener());
 		
 		//Set the identity of the random card
-		cardIdentity = setRandomCard();
-		
-		//Set the random card
-		try{
-			cardNumber = new ImageIcon(ImageIO.read(new File("resources/img/card_"+cardIdentity+".png")));
-		}catch(IOException e){
-			e.printStackTrace();
-		}
-		
+		setRandomCard();
 	}
 	
 	public String getCardIdentity(){
 		return cardIdentity;
 	}
 	
-	private String setRandomCard(){
-		String card = "";
+	public void setRandomCard(){
+		cardIdentity = "";
+		cardNumber = null;
 		
-		card += (int) (Math.random() * 10 + 1);
+		cardIdentity += (int) (Math.random() * 10 + 1);
 		
 		switch((int) (Math.random() * 4 + 1)){
 		case 1:
-			card += "c";
+			cardIdentity += "c";
 			break;
 		case 2:
-			card += "d";
+			cardIdentity += "d";
 			break;
 		case 3:
-			card += "h";
+			cardIdentity += "h";
 			break;
 		default:
-			card += "s";
+			cardIdentity += "s";
 		}
 		
-		return card;
+		try{
+			cardNumber = new ImageIcon(ImageIO.read(new File("resources/img/card_"+getCardIdentity()+".png")));
+		}catch(IOException e){
+			e.printStackTrace();
+		}
 	}
 	
 	public void hideCards(){

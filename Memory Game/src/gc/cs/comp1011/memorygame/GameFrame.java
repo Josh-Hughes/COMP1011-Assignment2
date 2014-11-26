@@ -161,13 +161,13 @@ public class GameFrame extends JFrame {
 	} //constructor
 	
 	class CardClickListener implements ActionListener {
-		
-		@Override
 		public void actionPerformed(ActionEvent e) {
-			userMessage.setText(GameMessages.SECOND_CARD.getMessage());
-		}
-		
-	}
+			for(int x=0; x<AMOUNT_OF_CARDS; x++){
+				cards[x].setRandomCard();
+				userMessage.setText(GameMessages.SECOND_CARD.getMessage());
+			}
+		}//action performed
+	};
 	
 	class ExitButtonListener implements ActionListener {
 		
