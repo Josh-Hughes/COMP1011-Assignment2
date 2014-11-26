@@ -236,6 +236,8 @@ public class GameFrame extends JFrame {
 			if (!countdownTimer.isRunning()) {
 				countdownTimer.start();
 			}
+			Card clickedCard = (Card)e.getSource();
+			clickedCard.showCard();
 		}//action performed
 	};
 	
