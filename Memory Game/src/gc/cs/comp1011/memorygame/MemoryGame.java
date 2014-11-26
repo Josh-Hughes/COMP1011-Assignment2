@@ -13,18 +13,9 @@ package gc.cs.comp1011.memorygame;
 public class MemoryGame {
 
 	public static void main(String[] args) {
-		/*GameFrame gameFrame = new GameFrame();
-		gameFrame.setVisible(true);*/
+		GameFrame gameFrame = new GameFrame();
+		gameFrame.setVisible(true);
 		
-		Timer timer = new Timer();
-		
-		timer.startTimer();
-		
-		do{
-			System.out.println(timer.getTimeRemaining());
-		}while(!timer.checkTimer());
-		
-		System.out.println("Finished My Friend");
 	}
 
 }

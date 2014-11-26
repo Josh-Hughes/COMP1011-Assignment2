@@ -51,7 +51,7 @@ public class GameFrame extends JFrame{
 	private JPanel topContainer;
 	
 	//private JButton[] cards;
-	private Cards[] cards;
+	private Card[] cards;
 
 	public GameFrame() {
 		//Call to the super class JFRAME
@@ -139,10 +139,10 @@ public class GameFrame extends JFrame{
 		cards = new JButton[AMOUNT_OF_CARDS];
 		cardsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));*/
 		
-		cards = new Cards[AMOUNT_OF_CARDS];
+		cards = new Card[AMOUNT_OF_CARDS];
 		
 		for(int x=0; x<AMOUNT_OF_CARDS; x++){
-			cards[x] = new Cards();
+			cards[x] = new Card();
 			cardsPanel.add(cards[x]);
 			
 			//System.out.println(cards[x].getCardIdentity());
@@ -155,7 +155,10 @@ public class GameFrame extends JFrame{
 		
 		exitButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				//System.exit(0);
+				for(int x=0; x<AMOUNT_OF_CARDS; x++){
+					cards[x].setRandomCard();
+				}
 			}//action performed
 		});
 		
