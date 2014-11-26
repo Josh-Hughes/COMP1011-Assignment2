@@ -147,6 +147,7 @@ public class GameFrame extends JFrame {
 		
 		for(int x=0; x<AMOUNT_OF_CARDS; x++){
 			cards[x] = new Card();
+			cards[x].addActionListener(new CardClickListener());
 			cardsPanel.add(cards[x]);
 			
 			//System.out.println(cards[x].getCardIdentity());
@@ -158,6 +159,15 @@ public class GameFrame extends JFrame {
 		playButton.addActionListener(new PlayButtonListener());
 		
 	} //constructor
+	
+	class CardClickListener implements ActionListener {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			userMessage.setText(GameMessages.SECOND_CARD.getMessage());
+		}
+		
+	}
 	
 	class ExitButtonListener implements ActionListener {
 		
