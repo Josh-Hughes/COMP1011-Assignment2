@@ -10,9 +10,9 @@
 package gc.cs.comp1011.memorygame;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.Timer;
 
 public class GameFrame extends JFrame {
 	//variable definition
@@ -29,6 +29,11 @@ public class GameFrame extends JFrame {
 	private final int CARDS_PER_COLUMN = 4;
 	private final int AMOUNT_OF_CARDS = CARDS_PER_COLUMN * CARDS_PER_ROW;
 	
+	private static final double COUNTDOWN_DEFAULT = 60;
+	private static final int COUNTDOWN_INTERVAL = 100;
+	private static final double COUNTDOWN_DECREMENT = 0.1;
+	private static double countdown = COUNTDOWN_DEFAULT;
+
 	/*private final String[] DECK = {"1c","2c","3c","4c","5c","6c","7c","8c","9c","10c",
 									"1d","2d","3d","4d","5d","6d","7d","8d","9d","10d",
 									"1h","2h","3h","4h","5h","6h","7h","8h","9h","10h",
@@ -53,6 +58,8 @@ public class GameFrame extends JFrame {
 
 	private Scoreboard scoreboard;
 	
+	private Timer countdownTimer;
+	
 	public GameFrame() {
 		//Call to the super class JFRAME
 		super("Memory Game");
@@ -68,6 +75,16 @@ public class GameFrame extends JFrame {
 		
 		// Create the score board.
 		scoreboard = new Scoreboard();
+		
+		// Create the countdown timer.
+		countdownTimer = new Timer(COUNTDOWN_INTERVAL, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				countdown -= COUNTDOWN_DECREMENT;
+				//System.out.printf("\nTick %.1f", countdown);
+				timer.setText(String.format("%.1f", countdown));
+			}
+		});
 
 		// Create the layout panels.
 		labelPanel = new JPanel(new GridLayout(2, 3));
@@ -97,7 +114,7 @@ public class GameFrame extends JFrame {
 		highScoreText = new JLabel("High Score", SwingConstants.CENTER);
 		highScore = new JLabel("####", SwingConstants.CENTER);
 		timerText = new JLabel("Time", SwingConstants.CENTER);
-		timer = new JLabel("##", SwingConstants.CENTER);
+		timer = new JLabel(String.format("%.1f", countdown), SwingConstants.CENTER);
 		scoreText = new JLabel("Score", SwingConstants.CENTER);
 		score = new JLabel(scoreboard.toString(), SwingConstants.CENTER);
 		userMessage = new JLabel(GameMessages.FIRST_CARD.getMessage(), SwingConstants.LEFT);
@@ -165,6 +182,9 @@ public class GameFrame extends JFrame {
 			for(int x=0; x<AMOUNT_OF_CARDS; x++){
 				cards[x].setRandomCard();
 				userMessage.setText(GameMessages.SECOND_CARD.getMessage());
+				if (!countdownTimer.isRunning()) {
+					countdownTimer.start();
+				}
 			}
 		}//action performed
 	};
