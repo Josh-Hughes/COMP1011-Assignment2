@@ -30,6 +30,8 @@ public class GameFrame extends JFrame {
 	private final int CARDS_PER_COLUMN = 4;
 	private final int AMOUNT_OF_CARDS = CARDS_PER_COLUMN * CARDS_PER_ROW;
 	
+	private String[] cardList = new String[AMOUNT_OF_CARDS/2]; 
+	
 	//private String gameboard[][] = new String[CARDS_PER_ROW][CARDS_PER_COLUMN];
 	
 	/*private final String[] DECK = {"1c","2c","3c","4c","5c","6c","7c","8c","9c","10c",
@@ -87,7 +89,7 @@ public class GameFrame extends JFrame {
 
 		// Create the buttons.
 		playButton = new JButton("Play Game");
-		playButton.setEnabled(false);
+		//playButton.setEnabled(false); <- Luis did this
 		exitButton = new JButton("Exit");
 		cheatButton = new JButton("Cheat");
 		
@@ -170,27 +172,26 @@ public class GameFrame extends JFrame {
 	
 	private void layoutGame(){
 		//instance variables
-		boolean settingCard = true;
 		Card temporaryCard;
-		int previousXPosition = 0;
-		int previousYPosition = 0;
 		int newXPosition = 0;
 		int newYPosition = 0;
 		
 		//Generate the random positions
 		for(int x=0; x<CARDS_PER_ROW; x++){
 			for(int y=0; y<CARDS_PER_COLUMN; y++){
-				previousXPosition = (int) (Math.random() *  CARDS_PER_ROW);
-				previousYPosition = (int) (Math.random() *  CARDS_PER_COLUMN);
 				newXPosition = (int) (Math.random() *  CARDS_PER_ROW);
 				newYPosition = (int) (Math.random() *  CARDS_PER_COLUMN);
 				
-				temporaryCard = cards[previousXPosition][previousYPosition];
-				cards[previousXPosition][previousYPosition] = cards[newXPosition][newYPosition];
+				//System.out.printf("Moved card from [%d][%d] to [%d][%d]\n",x,y,newXPosition,newYPosition);
+				
+				temporaryCard = cards[x][y];
+				cards[x][y] = cards[newXPosition][newYPosition];
 				cards[newXPosition][newYPosition] = temporaryCard;
 				
 			}
 		}
+		
+		cardsPanel.removeAll();
 		
 		//Add the random generated gameboard
 		for(int x=0; x<CARDS_PER_ROW; x++){
@@ -201,12 +202,42 @@ public class GameFrame extends JFrame {
 	}
 	
 	private void changeCards(){
+		//instance variables
+		boolean repeatedCardFound = false;
+		int positionOfRepeatedCard = -1;
+		int cardListCounter = 0;
+		int checkRepetitionCounter = 0;
+		
 		for(int x=0; x<CARDS_PER_ROW; x++){
 			for(int y=0; y<CARDS_PER_COLUMN;y+=2){
 				cards[x][y].setRandomCard();
 				cards[x][y+1].setDefinedCard(cards[x][y].getCardIdentity());
+				
+				cardList[cardListCounter] =  cards[x][y].getCardIdentity();
+				System.out.printf("Card[%s] = %s\n",cardListCounter,cardList[cardListCounter]);
+				cardListCounter++;
 			}
 		}
+			
+		do{
+			checkRepetitionCounter = cardListCounter - 1;
+			System.out.println("Comparing:");
+			repeatedCardFound = false;
+			
+			while(checkRepetitionCounter >= 0){
+				for(int x=0; x<checkRepetitionCounter; x++){
+					System.out.printf("[%s] == [%s]\n",cardList[checkRepetitionCounter],cardList[x]);
+					if(cardList[checkRepetitionCounter].equals(cardList[x])){
+						repeatedCardFound = true;
+						positionOfRepeatedCard = x;
+					}
+				}
+				
+				checkRepetitionCounter--;
+			}
+		}while(repeatedCardFound);
+		
+		System.out.println("No more repeated cards");
 	}
 	
 	public void newGame(){
@@ -217,6 +248,9 @@ public class GameFrame extends JFrame {
 	class CardClickListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			userMessage.setText(GameMessages.SECOND_CARD.getMessage());
+			Card clickedCard = (Card)e.getSource();
+			clickedCard.showCard();
+			
 		}//action performed
 	};
 	
@@ -236,12 +270,10 @@ public class GameFrame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			for(int x=0; x<CARDS_PER_ROW; x++){
 				for(int y=0; y<CARDS_PER_COLUMN;y++){
-					newGame();
 					cards[x][y].hideCards();
 				}
 			}
 		}
-		
 	}
 	
 	class PlayButtonListener implements ActionListener {
@@ -250,8 +282,8 @@ public class GameFrame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			//Set the array of cards with random cards
 			
+			//Testing the newGame method
+			newGame();
 		}
-
 	}
-	
 }

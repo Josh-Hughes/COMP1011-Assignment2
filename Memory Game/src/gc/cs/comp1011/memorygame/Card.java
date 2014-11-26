@@ -1,7 +1,5 @@
 package gc.cs.comp1011.memorygame;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -44,9 +42,6 @@ public class Card extends JButton {
 		setOpaque(false);
 		setContentAreaFilled(false);
 		setBorderPainted(false);
-		
-		//Set the listener class for the button
-		this.addActionListener(new cardClickedListener());
 		
 		//Set the identity of the random card
 		setRandomCard();
@@ -102,14 +97,9 @@ public class Card extends JButton {
 		setNewCard();
 	}
 	
-	class cardClickedListener implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			//System.out.println(cardNumber);
-			setIcon(cardNumber);
-			setRolloverEnabled(false);
-		}
-		
+	public void showCard(){
+		setIcon(cardNumber);
+		setRolloverEnabled(false);
 	}
+	
 }
