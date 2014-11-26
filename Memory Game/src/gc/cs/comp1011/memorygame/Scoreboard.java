@@ -5,10 +5,16 @@ public class Scoreboard {
 	// Instance variables
 	private int score;
 	
+	// Constructors
 	public Scoreboard() {
 		resetScore();
 	}
 	
+	public Scoreboard(int score) {
+		this.score = score;
+	}
+	
+	// Methods
 	public void resetScore() {
 		score = 0;
 	}

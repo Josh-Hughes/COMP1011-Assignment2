@@ -9,18 +9,12 @@
  */
 package gc.cs.comp1011.memorygame;
 
-//Libraries
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
-
-public class GameFrame extends JFrame{
+public class GameFrame extends JFrame {
 	//variable definition
 	private static final long serialVersionUID = 1L;
 
@@ -34,13 +28,6 @@ public class GameFrame extends JFrame{
 	private final int CARDS_PER_ROW = 4;
 	private final int CARDS_PER_COLUMN = 4;
 	private final int AMOUNT_OF_CARDS = CARDS_PER_COLUMN * CARDS_PER_ROW;
-	
-	private final String[] userMessages = {
-		"Pick a card, any card.",
-		"Now pick another card.",
-		"Right! Pick again...",
-		"Wrong! Pick again..."
-	};
 	
 	/*private final String[] DECK = {"1c","2c","3c","4c","5c","6c","7c","8c","9c","10c",
 									"1d","2d","3d","4d","5d","6d","7d","8d","9d","10d",
@@ -62,7 +49,7 @@ public class GameFrame extends JFrame{
 	private JPanel topContainer;
 	
 	//private JButton[] cards;
-	private Cards[] cards;
+	private Card[] cards;
 
 	private Scoreboard scoreboard;
 	
@@ -97,6 +84,7 @@ public class GameFrame extends JFrame{
 
 		// Create the buttons.
 		playButton = new JButton("Play Game");
+		playButton.setEnabled(false);
 		exitButton = new JButton("Exit");
 		cheatButton = new JButton("Cheat");
 		
@@ -112,7 +100,7 @@ public class GameFrame extends JFrame{
 		timer = new JLabel("##", SwingConstants.CENTER);
 		scoreText = new JLabel("Score", SwingConstants.CENTER);
 		score = new JLabel(scoreboard.toString(), SwingConstants.CENTER);
-		userMessage = new JLabel(userMessages[0], SwingConstants.LEFT);
+		userMessage = new JLabel(GameMessages.FIRST_CARD.getMessage(), SwingConstants.LEFT);
 
 		// Add labels to label panel.
 		labelPanel.add(highScoreText);
@@ -155,10 +143,10 @@ public class GameFrame extends JFrame{
 		cards = new JButton[AMOUNT_OF_CARDS];
 		cardsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));*/
 		
-		cards = new Cards[AMOUNT_OF_CARDS];
+		cards = new Card[AMOUNT_OF_CARDS];
 		
 		for(int x=0; x<AMOUNT_OF_CARDS; x++){
-			cards[x] = new Cards();
+			cards[x] = new Card();
 			cardsPanel.add(cards[x]);
 			
 			//System.out.println(cards[x].getCardIdentity());
@@ -171,6 +159,7 @@ public class GameFrame extends JFrame{
 		
 		exitButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
+				//userMessage.setText(GameMessages.SECOND_CARD.getMessage());
 				System.exit(0);
 			}//action performed
 		});

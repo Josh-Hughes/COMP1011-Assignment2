@@ -10,8 +10,9 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-public class Cards extends JButton {
+public class Card extends JButton {
 	private static final long serialVersionUID = 529663813111176555L;
+	
 	//Object variables
 	private Icon cardNumber;
 	private Icon cardBack;
@@ -20,7 +21,7 @@ public class Cards extends JButton {
 	private final int CARD_WIDTH = 65;
 	private final int CARD_HEIGHT = 87;
 	
-	public Cards() {
+	public Card() {
 		super();
 		
 		//Load images for the card button
