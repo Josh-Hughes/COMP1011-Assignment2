@@ -34,6 +34,8 @@ public class GameFrame extends JFrame {
 	private static final double COUNTDOWN_DECREMENT = 0.1;
 	private static double countdown = COUNTDOWN_DEFAULT;
 
+	//private String gameboard[][] = new String[CARDS_PER_ROW][CARDS_PER_COLUMN];
+
 	/*private final String[] DECK = {"1c","2c","3c","4c","5c","6c","7c","8c","9c","10c",
 									"1d","2d","3d","4d","5d","6d","7d","8d","9d","10d",
 									"1h","2h","3h","4h","5h","6h","7h","8h","9h","10h",
@@ -54,7 +56,7 @@ public class GameFrame extends JFrame {
 	private JPanel topContainer;
 	
 	//private JButton[] cards;
-	private Card[] cards;
+	private Card[][] cards;
 
 	private Scoreboard scoreboard;
 	
@@ -160,15 +162,20 @@ public class GameFrame extends JFrame {
 		cards = new JButton[AMOUNT_OF_CARDS];
 		cardsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));*/
 		
-		cards = new Card[AMOUNT_OF_CARDS];
+		//cards = new Card[AMOUNT_OF_CARDS];
+		cards = new Card[CARDS_PER_ROW][CARDS_PER_COLUMN];
 		
-		for(int x=0; x<AMOUNT_OF_CARDS; x++){
-			cards[x] = new Card();
-			cards[x].addActionListener(new CardClickListener());
-			cardsPanel.add(cards[x]);
-			
-			//System.out.println(cards[x].getCardIdentity());
+		for(int x=0; x<CARDS_PER_ROW; x++){
+			for(int y=0; y<CARDS_PER_COLUMN;y++){
+				cards[x][y] = new Card();
+				cards[x][y].addActionListener(new CardClickListener());
+				//cardsPanel.add(cards[x]);
+				//System.out.println(cards[x].getCardIdentity());
+			}
 		}
+		
+		//Generate the board
+		newGame();
 
 		//Add button handling
 		exitButton.addActionListener(new ExitButtonListener());
@@ -177,14 +184,57 @@ public class GameFrame extends JFrame {
 		
 	} //constructor
 	
+	private void layoutGame(){
+		//instance variables
+		boolean settingCard = true;
+		Card temporaryCard;
+		int previousXPosition = 0;
+		int previousYPosition = 0;
+		int newXPosition = 0;
+		int newYPosition = 0;
+		
+		//Generate the random positions
+		for(int x=0; x<CARDS_PER_ROW; x++){
+			for(int y=0; y<CARDS_PER_COLUMN; y++){
+				previousXPosition = (int) (Math.random() *  CARDS_PER_ROW);
+				previousYPosition = (int) (Math.random() *  CARDS_PER_COLUMN);
+				newXPosition = (int) (Math.random() *  CARDS_PER_ROW);
+				newYPosition = (int) (Math.random() *  CARDS_PER_COLUMN);
+				
+				temporaryCard = cards[previousXPosition][previousYPosition];
+				cards[previousXPosition][previousYPosition] = cards[newXPosition][newYPosition];
+				cards[newXPosition][newYPosition] = temporaryCard;
+				
+			}
+		}
+		
+		//Add the random generated gameboard
+		for(int x=0; x<CARDS_PER_ROW; x++){
+			for(int y=0; y<CARDS_PER_COLUMN; y++){
+				cardsPanel.add(cards[x][y]);
+			}
+		}
+	}
+	
+	private void changeCards(){
+		for(int x=0; x<CARDS_PER_ROW; x++){
+			for(int y=0; y<CARDS_PER_COLUMN;y+=2){
+				cards[x][y].setRandomCard();
+				cards[x][y+1].setDefinedCard(cards[x][y].getCardIdentity());
+			}
+		}
+	}
+	
+	public void newGame(){
+		changeCards();
+		layoutGame();
+	}
+	
 	class CardClickListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			for(int x=0; x<AMOUNT_OF_CARDS; x++){
-				cards[x].setRandomCard();
-				userMessage.setText(GameMessages.SECOND_CARD.getMessage());
-				if (!countdownTimer.isRunning()) {
-					countdownTimer.start();
-				}
+			userMessage.setText(GameMessages.SECOND_CARD.getMessage());
+			if (!countdownTimer.isRunning()) {
+				countdownTimer.start();
 			}
 		}//action performed
 	};
@@ -203,10 +253,11 @@ public class GameFrame extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			for(int x=0; x<AMOUNT_OF_CARDS; x++){
-				cards[x].hideCards();
-					
-				//System.out.println(cards[x].getCardIdentity());
+			for(int x=0; x<CARDS_PER_ROW; x++){
+				for(int y=0; y<CARDS_PER_COLUMN;y++){
+					newGame();
+					cards[x][y].hideCards();
+				}
 			}
 		}
 		

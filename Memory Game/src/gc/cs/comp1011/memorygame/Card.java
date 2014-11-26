@@ -57,8 +57,7 @@ public class Card extends JButton {
 	}
 	
 	public void setRandomCard(){
-		cardIdentity = "";
-		cardNumber = null;
+		String cardIdentity = "";
 		
 		cardIdentity += (int) (Math.random() * 10 + 1);
 		
@@ -76,6 +75,21 @@ public class Card extends JButton {
 			cardIdentity += "s";
 		}
 		
+		setCardIdentity(cardIdentity);
+		setNewCard();
+	}
+	
+	public void hideCards(){
+		setRolloverEnabled(true);
+		setIcon(cardBack);
+	}
+	
+	private void setCardIdentity(String cardIdentity){
+		this.cardIdentity = cardIdentity;
+	}
+	
+	private void setNewCard(){
+		cardNumber = null;
 		try{
 			cardNumber = new ImageIcon(ImageIO.read(new File("resources/img/card_"+getCardIdentity()+".png")));
 		}catch(IOException e){
@@ -83,9 +97,9 @@ public class Card extends JButton {
 		}
 	}
 	
-	public void hideCards(){
-		setRolloverEnabled(true);
-		setIcon(cardBack);
+	public void setDefinedCard(String cardIdentity){
+		setCardIdentity(cardIdentity);
+		setNewCard();
 	}
 	
 	class cardClickedListener implements ActionListener{
