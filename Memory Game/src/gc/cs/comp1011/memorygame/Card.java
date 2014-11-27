@@ -44,14 +44,14 @@ public class Card extends JButton {
 		setBorderPainted(false);
 		
 		//Set the identity of the random card
-		setRandomCard();
+		//setRandomCard();
 	}
 	
 	public String getCardIdentity(){
 		return cardIdentity;
 	}
 	
-	public void setRandomCard(){
+	/*public void setRandomCard(){
 		String cardIdentity = "";
 		
 		cardIdentity += (int) (Math.random() * 10 + 1);
@@ -72,7 +72,7 @@ public class Card extends JButton {
 		
 		setCardIdentity(cardIdentity);
 		setNewCard();
-	}
+	}*/
 	
 	public void hideCards(){
 		setRolloverEnabled(true);

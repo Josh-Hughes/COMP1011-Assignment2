@@ -27,9 +27,12 @@ public class GameFrame extends JFrame {
 	private final int SCREEN_WIDTH = 310;
 	private final int SCREEN_HEIGHT = 500;
 	
-	private final int CARDS_PER_ROW = 4;
-	private final int CARDS_PER_COLUMN = 4;
-	private final int AMOUNT_OF_CARDS = CARDS_PER_COLUMN * CARDS_PER_ROW;
+	//private final int CARDS_PER_ROW = 4;
+	//private final int CARDS_PER_COLUMN = 4;
+	//private final int AMOUNT_OF_CARDS = CARDS_PER_COLUMN * CARDS_PER_ROW;
+	//private final int CARD_PANEL_ROWS = CARDS_PER_ROW + 1;
+	
+	//private String[] cardList = new String[AMOUNT_OF_CARDS/2]; 
 	
 	private final double COUNTDOWN_DEFAULT = 60;
 	private final int COUNTDOWN_INTERVAL = 100;
@@ -49,12 +52,13 @@ public class GameFrame extends JFrame {
 	private JLabel highScore;
 	private JLabel timer;
 	private JLabel score;
-	private JLabel userMessage;
+	//private JLabel userMessage;
 
 	// Panel for the labels to go in.
 	private JPanel labelPanel;
+
 	// Panel for the cards to go in.
-	private JPanel cardsPanel;
+	private JPanel gameBoardPanel;
 	// Panel for the buttons to go in.
 	private JPanel buttonPanel;
 	// Panel for the user message to go in.
@@ -108,20 +112,22 @@ public class GameFrame extends JFrame {
 
 		// Create the layout panels.
 		labelPanel = new JPanel(new GridLayout(2, 3));
-		userMessagePanel = new JPanel(new FlowLayout());
-		cardsPanel = new JPanel(new GridLayout(CARDS_PER_ROW,CARDS_PER_COLUMN));
+		//userMessagePanel = new JPanel(new FlowLayout());
+		//cardsPanel = new JPanel(new GridLayout(CARDS_PER_ROW,CARDS_PER_COLUMN));
+		gameBoardPanel = new JPanel(new FlowLayout());
 		buttonPanel = new JPanel(new GridLayout(1, 3));
-		topContainer = new JPanel(new GridLayout(2,1));
+		//topContainer = new JPanel(new GridLayout(2,1));
 
 		// Add panels to window.
 		//add(labelPanel, BorderLayout.NORTH);
-		add(topContainer, BorderLayout.NORTH);
-		add(cardsPanel, BorderLayout.CENTER);
+		//add(topContainer, BorderLayout.NORTH);
+		add(labelPanel, BorderLayout.NORTH);
+		add(gameBoardPanel, BorderLayout.CENTER);
 		add(buttonPanel, BorderLayout.SOUTH);
 
 		// Create the buttons.
 		playButton = new JButton("Play Game");
-		playButton.setEnabled(false);
+		//playButton.setEnabled(false); <- Luis did this
 		exitButton = new JButton("Exit");
 		cheatButton = new JButton("Cheat");
 		
@@ -137,7 +143,7 @@ public class GameFrame extends JFrame {
 		timer = new JLabel(String.format("%.1f", countdown), SwingConstants.CENTER);
 		scoreText = new JLabel("Score", SwingConstants.CENTER);
 		score = new JLabel(scoreboard.toString(), SwingConstants.CENTER);
-		userMessage = new JLabel(GameMessages.FIRST_CARD.getMessage(), SwingConstants.LEFT);
+		//userMessage = new JLabel(GameMessages.FIRST_CARD.getMessage(), SwingConstants.LEFT);
 
 		// Add labels to label panel.
 		labelPanel.add(highScoreText);
@@ -148,14 +154,14 @@ public class GameFrame extends JFrame {
 		labelPanel.add(score);
 		
 		// Add message to message panel
-		userMessagePanel.add(userMessage);
+		//userMessagePanel.add(userMessage);
 		
 		// Add the labels and the user message to the top container
-		topContainer.add(labelPanel, BorderLayout.NORTH);
-		topContainer.add(userMessagePanel, BorderLayout.CENTER);
+		//topContainer.add(labelPanel, BorderLayout.NORTH);
+		//topContainer.add(userMessagePanel, BorderLayout.CENTER);
 		
 		// Border for the game panel
-		cardsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		gameBoardPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		
 		/*cards = new Cards();
 		cardsPanel.add(cards);*/
@@ -181,7 +187,7 @@ public class GameFrame extends JFrame {
 		cardsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));*/
 		
 		//cards = new Card[AMOUNT_OF_CARDS];
-		cards = new Card[CARDS_PER_ROW][CARDS_PER_COLUMN];
+		/*cards = new Card[CARDS_PER_ROW][CARDS_PER_COLUMN];
 		
 		for(int x=0; x<CARDS_PER_ROW; x++){
 			for(int y=0; y<CARDS_PER_COLUMN;y++){
@@ -194,7 +200,7 @@ public class GameFrame extends JFrame {
 		
 		//Generate the board
 		newGame();
-
+		 */
 		//Add button handling
 		exitButton.addActionListener(new ExitButtonListener());
 		cheatButton.addActionListener(new CheatButtonListener());
@@ -202,45 +208,74 @@ public class GameFrame extends JFrame {
 		
 	} //constructor
 	
-	private void layoutGame(){
+	/*private void layoutGame(){
 		//instance variables
-		boolean settingCard = true;
 		Card temporaryCard;
-		int previousXPosition = 0;
-		int previousYPosition = 0;
 		int newXPosition = 0;
 		int newYPosition = 0;
 		
 		//Generate the random positions
 		for(int x=0; x<CARDS_PER_ROW; x++){
 			for(int y=0; y<CARDS_PER_COLUMN; y++){
-				previousXPosition = (int) (Math.random() *  CARDS_PER_ROW);
-				previousYPosition = (int) (Math.random() *  CARDS_PER_COLUMN);
 				newXPosition = (int) (Math.random() *  CARDS_PER_ROW);
 				newYPosition = (int) (Math.random() *  CARDS_PER_COLUMN);
 				
-				temporaryCard = cards[previousXPosition][previousYPosition];
-				cards[previousXPosition][previousYPosition] = cards[newXPosition][newYPosition];
+				//System.out.printf("Moved card from [%d][%d] to [%d][%d]\n",x,y,newXPosition,newYPosition);
+				
+				temporaryCard = cards[x][y];
+				cards[x][y] = cards[newXPosition][newYPosition];
 				cards[newXPosition][newYPosition] = temporaryCard;
 				
 			}
 		}
 		
+		gameBoardPanel.removeAll();
+		
 		//Add the random generated gameboard
 		for(int x=0; x<CARDS_PER_ROW; x++){
 			for(int y=0; y<CARDS_PER_COLUMN; y++){
-				cardsPanel.add(cards[x][y]);
+				gameBoardPanel.add(cards[x][y]);
 			}
 		}
 	}
 	
 	private void changeCards(){
+		//instance variables
+		boolean repeatedCardFound = false;
+		int positionOfRepeatedCard = -1;
+		int cardListCounter = 0;
+		int checkRepetitionCounter = 0;
+		
 		for(int x=0; x<CARDS_PER_ROW; x++){
 			for(int y=0; y<CARDS_PER_COLUMN;y+=2){
 				cards[x][y].setRandomCard();
 				cards[x][y+1].setDefinedCard(cards[x][y].getCardIdentity());
+				
+				cardList[cardListCounter] =  cards[x][y].getCardIdentity();
+				System.out.printf("Card[%s] = %s\n",cardListCounter,cardList[cardListCounter]);
+				cardListCounter++;
 			}
 		}
+			
+		do{
+			checkRepetitionCounter = cardListCounter - 1;
+			System.out.println("Comparing:");
+			repeatedCardFound = false;
+			
+			while(checkRepetitionCounter >= 0){
+				for(int x=0; x<checkRepetitionCounter; x++){
+					System.out.printf("[%s] == [%s]\n",cardList[checkRepetitionCounter],cardList[x]);
+					if(cardList[checkRepetitionCounter].equals(cardList[x])){
+						repeatedCardFound = true;
+						positionOfRepeatedCard = x;
+					}
+				}
+				
+				checkRepetitionCounter--;
+			}
+		}while(repeatedCardFound);
+		
+		System.out.println("No more repeated cards");
 	}
 	
 	public void newGame(){
@@ -280,7 +315,7 @@ public class GameFrame extends JFrame {
 			clickedCard.showCard();
 
 		}//action performed
-	};
+	};*/
 	
 	class ExitButtonListener implements ActionListener {
 		
@@ -296,25 +331,22 @@ public class GameFrame extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			for(int x=0; x<CARDS_PER_ROW; x++){
+			//Hide the cards
+			/*for(int x=0; x<CARDS_PER_ROW; x++){
 				for(int y=0; y<CARDS_PER_COLUMN;y++){
 					//newGame();
 					cards[x][y].setVisible(true);
 					cards[x][y].hideCards();
 				}
-			}
+			}*/
 		}
-		
 	}
 	
 	class PlayButtonListener implements ActionListener {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//Set the array of cards with random cards
 			
 		}
-
 	}
-	
 }
