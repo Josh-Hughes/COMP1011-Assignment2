@@ -27,14 +27,14 @@ public class Deck {
 		for(String deck: DECK_FACE){
 			setDeck(deck);
 		}
+		
+		//Random the deck 
+		Collections.shuffle(deck);
 	}
 	
 	public String getRandomCard(){
 		//instance variables
 		String cardBack = "";
-		
-		//Random the deck 
-		Collections.shuffle(deck);
 		
 		//Get the card for the user to use
 		cardBack = deck.get(0);

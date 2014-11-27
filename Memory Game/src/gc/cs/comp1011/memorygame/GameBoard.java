@@ -1,31 +1,91 @@
 package gc.cs.comp1011.memorygame;
 
-import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class GameBoard {
+	
+	// A reference to the game frame.
+	GameFrame gameFrame;
+	
 	//Variables
 	private Deck deck;
-	private Card[][] cards;
-	private JPanel cardLayout;
-	private JPanel userMessages;
 	
+	private final double COUNTDOWN_DEFAULT = 60;
+	private final int COUNTDOWN_INTERVAL = 100;
+	private final double COUNTDOWN_DECREMENT = 0.1;
+
+	// The countdown timer.
+	private Timer countdownTimer;
+	// The current countdown value.
+	private double countdown;
 	
-	public GameBoard(int rows, int columns){
-		 deck = new Deck();
-		 cards = new Card[rows][columns];
-		 for(int x=0; x<rows; x++){
-				for(int y=0; y<columns;y++){
-					cards[x][y] = new Card();
-					cards[x][y].addActionListener(new ActionListener());
-					//cardsPanel.add(cards[x]);
-					//System.out.println(cards[x].getCardIdentity());
-				}
-			}
+	// The score board keeps track of the player's score.
+	private Scoreboard scoreboard;
+
+	// The cards selected by the player, null if not yet picked. 
+	private Card selectedCard1 = null;
+	private Card selectedCard2 = null;
+	
+	public GameBoard(GameFrame gameFrame) {
+		this.gameFrame = gameFrame;
+		
+		deck = new Deck();
 		 
-		 userMessages = new JPanel(new FlowLayout());
+		// Create the score board.
+		scoreboard = new Scoreboard();
+
+		// Create the countdown timer.
+		countdownTimer = new Timer(COUNTDOWN_INTERVAL, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				countdown -= COUNTDOWN_DECREMENT;
+				//System.out.printf("\nTick %.1f", countdown);
+				gameFrame.setTimerText(String.format("%.1f", countdown));
+			}
+		});
+		
+		// Set the default countdown timer value.
+		countdown = COUNTDOWN_DEFAULT;
+		
 	}
 
+	public void newGame(){
+		gameFrame.changeCards(deck);
+		gameFrame.layoutGame();
+	}
+	
+	public void cardClicked(ActionEvent e) {
+		// Start the countdown timer if it's not started yet.
+		if (!countdownTimer.isRunning()) {
+			countdownTimer.start();
+		}
+		
+		// Get the card that was clicked on.
+		Card clickedCard = (Card)e.getSource();
+		
+		if (selectedCard1 == null) {
+			selectedCard1 = clickedCard;
+			gameFrame.setUserMessageText(GameMessages.SECOND_CARD.getMessage());
+		} else {
+			if (!selectedCard1.equals(clickedCard)) {
+				selectedCard2 = clickedCard;
+				if (selectedCard1.getCardIdentity().equals(selectedCard2.getCardIdentity())) {
+					gameFrame.setUserMessageText(GameMessages.RIGHT_MATCH.getMessage() + " [" + selectedCard1.getCardIdentity() + " == " + selectedCard2.getCardIdentity() + "]");
+					selectedCard1.setVisible(false);
+					selectedCard2.setVisible(false);
+				} else {
+					gameFrame.setUserMessageText(GameMessages.WRONG_MATCH.getMessage() + " [" + selectedCard1.getCardIdentity() + " != " + selectedCard2.getCardIdentity() + "]");
+				}
+				selectedCard1 = null;
+				selectedCard2 = null;
+			}
+		}
+					
+		// Reveal the card face.
+		clickedCard.showCard();
+		
+	}//action performed
 }
