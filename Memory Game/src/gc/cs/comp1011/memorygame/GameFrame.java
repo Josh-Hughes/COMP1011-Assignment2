@@ -15,13 +15,15 @@ import javax.swing.*;
 import javax.swing.Timer;
 
 public class GameFrame extends JFrame {
-	//variable definition
+	// Serialization identifier
 	private static final long serialVersionUID = 1L;
 
+	// Main buttons.
 	private JButton playButton;
 	private JButton exitButton;
 	private JButton cheatButton;
 	
+	// Constants.
 	private final int SCREEN_WIDTH = 310;
 	private final int SCREEN_HEIGHT = 500;
 	
@@ -29,10 +31,9 @@ public class GameFrame extends JFrame {
 	private final int CARDS_PER_COLUMN = 4;
 	private final int AMOUNT_OF_CARDS = CARDS_PER_COLUMN * CARDS_PER_ROW;
 	
-	private static final double COUNTDOWN_DEFAULT = 60;
-	private static final int COUNTDOWN_INTERVAL = 100;
-	private static final double COUNTDOWN_DECREMENT = 0.1;
-	private static double countdown = COUNTDOWN_DEFAULT;
+	private final double COUNTDOWN_DEFAULT = 60;
+	private final int COUNTDOWN_INTERVAL = 100;
+	private final double COUNTDOWN_DECREMENT = 0.1;
 
 	//private String gameboard[][] = new String[CARDS_PER_ROW][CARDS_PER_COLUMN];
 
@@ -41,6 +42,7 @@ public class GameFrame extends JFrame {
 									"1h","2h","3h","4h","5h","6h","7h","8h","9h","10h",
 									"1s","2s","3s","4s","5s","6s","7s","8s","9s","10s"};*/
 
+	// All the labels...
 	private JLabel highScoreText;
 	private JLabel timerText;
 	private JLabel scoreText;
@@ -49,21 +51,34 @@ public class GameFrame extends JFrame {
 	private JLabel score;
 	private JLabel userMessage;
 
+	// Panel for the labels to go in.
 	private JPanel labelPanel;
+	// Panel for the cards to go in.
 	private JPanel cardsPanel;
+	// Panel for the buttons to go in.
 	private JPanel buttonPanel;
+	// Panel for the user message to go in.
 	private JPanel userMessagePanel;
+	// Panel for the label panel and user message panel to go in.
 	private JPanel topContainer;
 	
-	//private JButton[] cards;
+	// All the cards for the memory game.
 	private Card[][] cards;
 
+	// The score board keeps track of the player's score.
 	private Scoreboard scoreboard;
 	
+	// The countdown timer.
 	private Timer countdownTimer;
+	// The current countdown value.
+	private double countdown;
+
+	// The cards selected by the player, null if not yet picked. 
+	private Card selectedCard1 = null;
+	private Card selectedCard2 = null;
 	
 	public GameFrame() {
-		//Call to the super class JFRAME
+		// Call the super class JFrame constructor
 		super("Memory Game");
 		
 		//Frame configuration
@@ -87,6 +102,9 @@ public class GameFrame extends JFrame {
 				timer.setText(String.format("%.1f", countdown));
 			}
 		});
+		
+		// Set the default countdown timer value.
+		countdown = COUNTDOWN_DEFAULT;
 
 		// Create the layout panels.
 		labelPanel = new JPanel(new GridLayout(2, 3));
@@ -132,11 +150,11 @@ public class GameFrame extends JFrame {
 		// Add message to message panel
 		userMessagePanel.add(userMessage);
 		
-		//Add the labels and the user message to the top container
+		// Add the labels and the user message to the top container
 		topContainer.add(labelPanel, BorderLayout.NORTH);
 		topContainer.add(userMessagePanel, BorderLayout.CENTER);
 		
-		//Border for the game panel
+		// Border for the game panel
 		cardsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		
 		/*cards = new Cards();
@@ -232,12 +250,35 @@ public class GameFrame extends JFrame {
 	
 	class CardClickListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			userMessage.setText(GameMessages.SECOND_CARD.getMessage());
+			// Start the countdown timer if it's not started yet.
 			if (!countdownTimer.isRunning()) {
 				countdownTimer.start();
 			}
+			
+			// Get the card that was clicked on.
 			Card clickedCard = (Card)e.getSource();
+			
+			if (selectedCard1 == null) {
+				selectedCard1 = clickedCard;
+				userMessage.setText(GameMessages.SECOND_CARD.getMessage());
+			} else {
+				if (!selectedCard1.equals(clickedCard)) {
+					selectedCard2 = clickedCard;
+					if (selectedCard1.getCardIdentity().equals(selectedCard2.getCardIdentity())) {
+						userMessage.setText(GameMessages.RIGHT_MATCH.getMessage() + " [" + selectedCard1.getCardIdentity() + " == " + selectedCard2.getCardIdentity() + "]");
+						selectedCard1.setVisible(false);
+						selectedCard2.setVisible(false);
+					} else {
+						userMessage.setText(GameMessages.WRONG_MATCH.getMessage() + " [" + selectedCard1.getCardIdentity() + " != " + selectedCard2.getCardIdentity() + "]");
+					}
+					selectedCard1 = null;
+					selectedCard2 = null;
+				}
+			}
+						
+			// Reveal the card face.
 			clickedCard.showCard();
+
 		}//action performed
 	};
 	
@@ -257,7 +298,8 @@ public class GameFrame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			for(int x=0; x<CARDS_PER_ROW; x++){
 				for(int y=0; y<CARDS_PER_COLUMN;y++){
-					newGame();
+					//newGame();
+					cards[x][y].setVisible(true);
 					cards[x][y].hideCards();
 				}
 			}
