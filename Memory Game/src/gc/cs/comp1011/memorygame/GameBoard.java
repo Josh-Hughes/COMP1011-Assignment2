@@ -10,9 +10,6 @@ public class GameBoard {
 	// A reference to the game frame.
 	GameFrame gameFrame;
 	
-	//Variables
-	private Deck deck;
-	
 	private final double COUNTDOWN_DEFAULT = 60;
 	private final int COUNTDOWN_INTERVAL = 100;
 	private final double COUNTDOWN_DECREMENT = 0.1;
@@ -32,8 +29,6 @@ public class GameBoard {
 	public GameBoard(GameFrame gameFrame) {
 		this.gameFrame = gameFrame;
 		
-		deck = new Deck();
-		 
 		// Create the score board.
 		scoreboard = new Scoreboard();
 
@@ -53,7 +48,7 @@ public class GameBoard {
 	}
 
 	public void newGame(){
-		gameFrame.changeCards(deck);
+		gameFrame.changeCards();
 		gameFrame.layoutGame();
 	}
 	

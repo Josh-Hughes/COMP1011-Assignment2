@@ -15,7 +15,7 @@ public class Card extends JButton {
 	private Icon cardBack;
 	private String cardIdentity;
 	
-	public Card() {
+	public Card(String cardIdentity) {
 		super();
 
 		//Load images for the card button
@@ -43,36 +43,13 @@ public class Card extends JButton {
 		setContentAreaFilled(false);
 		setBorderPainted(false);
 		
-		//Set the identity of the random card
-		//setRandomCard();
+		//Set the card to appear
+		setDefinedCard(cardIdentity);
 	}
 	
 	public String getCardIdentity(){
 		return cardIdentity;
 	}
-	
-	/*public void setRandomCard(){
-		String cardIdentity = "";
-		
-		cardIdentity += (int) (Math.random() * 10 + 1);
-		
-		switch((int) (Math.random() * 4 + 1)){
-		case 1:
-			cardIdentity += "c";
-			break;
-		case 2:
-			cardIdentity += "d";
-			break;
-		case 3:
-			cardIdentity += "h";
-			break;
-		default:
-			cardIdentity += "s";
-		}
-		
-		setCardIdentity(cardIdentity);
-		setNewCard();
-	}*/
 	
 	public void hideCards(){
 		setRolloverEnabled(true);

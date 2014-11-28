@@ -5,7 +5,7 @@ import java.util.Collections;
 
 public class Deck {
 	//Variables
-	private ArrayList<String> deck = new ArrayList<String>();
+	public ArrayList<String> deck = new ArrayList<String>();
 	private final String[] DECK_FACE = {"1c","2c","3c","4c","5c","6c","7c","8c","9c","10c",
 										"1d","2d","3d","4d","5d","6d","7d","8d","9d","10d",
 										"1h","2h","3h","4h","5h","6h","7h","8h","9h","10h",
@@ -37,10 +37,10 @@ public class Deck {
 		String cardBack = "";
 		
 		//Get the card for the user to use
-		cardBack = deck.get(0);
+		cardBack = deck.get(1);
 		
 		//Remove the card from the deck to avoid repetition
-		deck.remove(0);
+		deck.remove(1);
 		
 		//Return the value
 		return cardBack;

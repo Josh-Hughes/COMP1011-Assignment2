@@ -63,6 +63,8 @@ public class GameFrame extends JFrame {
 	
 	private GameBoard gameBoard;
 	
+	private Deck deck;
+	
 	public GameFrame() {
 		// Call the super class JFrame constructor
 		super("Memory Game");
@@ -77,6 +79,8 @@ public class GameFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		gameBoard = new GameBoard(this);
+		
+		deck = new Deck();
 
 		// Create the layout panels.
 		labelPanel = new JPanel(new GridLayout(2, 3));
@@ -159,7 +163,7 @@ public class GameFrame extends JFrame {
 		
 		for(int x=0; x<CARDS_PER_ROW; x++){
 			for(int y=0; y<CARDS_PER_COLUMN;y++){
-				cards[x][y] = new Card();
+				cards[x][y] = new Card(deck.getRandomCard());
 				cards[x][y].addActionListener(new CardClickListener());
 				//cardsPanel.add(cards[x]);
 				//System.out.println(cards[x].getCardIdentity());
@@ -207,7 +211,7 @@ public class GameFrame extends JFrame {
 		}
 	}
 	
-	public void changeCards(Deck deck){
+	public void changeCards(){
 		//instance variables
 		boolean repeatedCardFound = false;
 		int positionOfRepeatedCard = -1;
