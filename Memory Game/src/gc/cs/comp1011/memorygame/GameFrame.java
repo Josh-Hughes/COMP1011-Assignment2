@@ -75,6 +75,11 @@ public class GameFrame extends JFrame {
 	private Timer flipCardsBackTimer;
 	// The delay before flipping the cards back will be 60 milliseconds.
 	private final int FLIP_CARDS_BACK_DELAY = 600;
+	
+	// A timer that will hide 2 matched cards after a delay.
+	private Timer hideMatchedCardsTimer;
+	// The delay before hiding the cards will be 30 milliseconds.
+	private final int HIDE_MATCHED_CARDS_DELAY = 600;
 
 	// The score board keeps track of the player's score.
 	private Scoreboard scoreboard;
@@ -306,6 +311,25 @@ public class GameFrame extends JFrame {
 		
 	}
 	
+	class HideMatchedCardsTimerTickListener implements ActionListener {
+
+		private Card card1, card2;
+		
+		public HideMatchedCardsTimerTickListener(Card card1, Card card2) {
+			this.card1 = card1;
+			this.card2 = card2;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Timer timer = (Timer)e.getSource();
+			timer.stop();
+			card1.setVisible(false);
+			card2.setVisible(false);
+		}
+		
+	}
+
 	class CardClickListener implements ActionListener {
 		
 		@Override
@@ -329,8 +353,8 @@ public class GameFrame extends JFrame {
 					if (selectedCard1.getCardIdentity().equals(selectedCard2.getCardIdentity())) {
 						userMessage.setText(GameMessages.RIGHT_MATCH.getMessage() + " [" + selectedCard1.getCardIdentity() + " == " + selectedCard2.getCardIdentity() + "]");
 						
-						selectedCard1.setVisible(false);
-						selectedCard2.setVisible(false);
+						hideMatchedCardsTimer = new Timer(HIDE_MATCHED_CARDS_DELAY, new HideMatchedCardsTimerTickListener(selectedCard1, selectedCard2));
+						hideMatchedCardsTimer.start();
 					} else {
 						userMessage.setText(GameMessages.WRONG_MATCH.getMessage() + " [" + selectedCard1.getCardIdentity() + " != " + selectedCard2.getCardIdentity() + "]");
 						
