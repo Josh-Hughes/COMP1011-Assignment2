@@ -80,18 +80,19 @@ public class GameFrame extends JFrame {
 	private Card selectedCard2 = null;
 
 	public GameFrame() {
-		// Call the super class JFrame constructor
+		// Call the super class JFrame constructor.
 		super("Memory Game");
 		
-		//Frame configuration
+		// Frame configuration.
 		setLayout(new BorderLayout());
 		setUndecorated(true);
 		setResizable(false);
-		setSize(SCREEN_WIDTH,SCREEN_HEIGHT);
-		getRootPane().setWindowDecorationStyle( JRootPane.QUESTION_DIALOG );
+		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+		getRootPane().setWindowDecorationStyle(JRootPane.QUESTION_DIALOG);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		// Create the card deck.
 		deck = new Deck();
 		
 		// Create the score board.
@@ -104,23 +105,20 @@ public class GameFrame extends JFrame {
 		countdown = COUNTDOWN_DEFAULT;
 		
 		// Create the layout panels.
+		topContainer = new JPanel(new BorderLayout());
 		labelPanel = new JPanel(new GridLayout(2, 3));
-		userMessagePanel = new JPanel(new FlowLayout());
+		userMessagePanel = new JPanel(new BorderLayout());
 		cardsPanel = new JPanel(new GridLayout(CARDS_PER_ROW, CARDS_PER_COLUMN));
-		//gameBoardPanel = new JPanel(new FlowLayout());
 		buttonPanel = new JPanel(new GridLayout(1, 3));
-		topContainer = new JPanel(new GridLayout(2,1));
-
-		// Add panels to window.
-		//add(labelPanel, BorderLayout.NORTH);
+		
+		// Add the top level panels to the window.
 		add(topContainer, BorderLayout.NORTH);
-		//add(labelPanel, BorderLayout.NORTH);
 		add(cardsPanel, BorderLayout.CENTER);
 		add(buttonPanel, BorderLayout.SOUTH);
 
 		// Create the buttons.
 		playButton = new JButton("Play Game");
-		//playButton.setEnabled(false); <- Luis did this
+		playButton.setEnabled(false);
 		exitButton = new JButton("Exit");
 		cheatButton = new JButton("Cheat");
 		
@@ -136,7 +134,7 @@ public class GameFrame extends JFrame {
 		timer = new JLabel(String.format("%.1f", 60.0f), SwingConstants.CENTER);
 		scoreText = new JLabel("Score", SwingConstants.CENTER);
 		score = new JLabel(scoreboard.toString(), SwingConstants.CENTER);
-		userMessage = new JLabel(GameMessages.FIRST_CARD.getMessage(), SwingConstants.LEFT);
+		userMessage = new JLabel(GameMessages.FIRST_CARD.getMessage(), SwingConstants.CENTER);
 
 		// Add labels to label panel.
 		labelPanel.add(highScoreText);
@@ -146,40 +144,17 @@ public class GameFrame extends JFrame {
 		labelPanel.add(timer);
 		labelPanel.add(score);
 		
-		// Add message to message panel
+		// Add message to message panel.
 		userMessagePanel.add(userMessage);
 		
-		// Add the labels and the user message to the top container
+		// Add the label panel and the user message panel to the top container.
 		topContainer.add(labelPanel, BorderLayout.NORTH);
 		topContainer.add(userMessagePanel, BorderLayout.CENTER);
 		
 		// Border for the game panel
 		cardsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		
-		/*cards = new Cards();
-		cardsPanel.add(cards);*/
-		
-		//Set back of cards
-		/*Icon cardBack = null;
-		Icon cardBackHighLight = null;
-		try{
-			cardBack = new ImageIcon(ImageIO.read(new File("resources/img/cardback.png")));
-		}
-		catch(IOException e){
-			e.printStackTrace();
-		}
-		try{
-			cardBackHighLight = new ImageIcon(ImageIO.read(new File("resources/img/cardback2.png")));
-		}
-		catch(IOException e){
-			e.printStackTrace();
-		}
-		
-		//Setting the array of cards
-		cards = new JButton[AMOUNT_OF_CARDS];
-		cardsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));*/
-		
-		//cards = new Card[AMOUNT_OF_CARDS];
+		// Create the array of cards.
 		cards = new Card[CARDS_PER_ROW][CARDS_PER_COLUMN];
 		
 		for(int x=0; x<CARDS_PER_ROW; x++){
@@ -191,10 +166,10 @@ public class GameFrame extends JFrame {
 			}
 		}
 		
-		//Generate the board
+		// Generate the board.
 		newGame();
 		 
-		//Add button handling
+		// Add button event handling.
 		exitButton.addActionListener(new ExitButtonListener());
 		cheatButton.addActionListener(new CheatButtonListener());
 		playButton.addActionListener(new PlayButtonListener());
