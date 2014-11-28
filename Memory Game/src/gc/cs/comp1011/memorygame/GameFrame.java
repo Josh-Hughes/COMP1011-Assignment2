@@ -71,6 +71,11 @@ public class GameFrame extends JFrame {
 	// The current countdown value.
 	private double countdown;
 	
+	// A timer that will flip the 2 mismatched cards back after a delay.
+	private Timer flipCardsBackTimer;
+	// The delay before flipping the cards back will be 60 milliseconds.
+	private final int FLIP_CARDS_BACK_DELAY = 600;
+
 	// The score board keeps track of the player's score.
 	private Scoreboard scoreboard;
 
@@ -282,6 +287,25 @@ public class GameFrame extends JFrame {
 		
 	}
 	
+	class FlipCardsBackTimerTickListener implements ActionListener {
+
+		private Card card1, card2;
+		
+		public FlipCardsBackTimerTickListener(Card card1, Card card2) {
+			this.card1 = card1;
+			this.card2 = card2;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Timer timer = (Timer)e.getSource();
+			timer.stop();
+			card1.hideCard();
+			card2.hideCard();
+		}
+		
+	}
+	
 	class CardClickListener implements ActionListener {
 		
 		@Override
@@ -304,10 +328,14 @@ public class GameFrame extends JFrame {
 					selectedCard2 = clickedCard;
 					if (selectedCard1.getCardIdentity().equals(selectedCard2.getCardIdentity())) {
 						userMessage.setText(GameMessages.RIGHT_MATCH.getMessage() + " [" + selectedCard1.getCardIdentity() + " == " + selectedCard2.getCardIdentity() + "]");
+						
 						selectedCard1.setVisible(false);
 						selectedCard2.setVisible(false);
 					} else {
 						userMessage.setText(GameMessages.WRONG_MATCH.getMessage() + " [" + selectedCard1.getCardIdentity() + " != " + selectedCard2.getCardIdentity() + "]");
+						
+						flipCardsBackTimer = new Timer(FLIP_CARDS_BACK_DELAY, new FlipCardsBackTimerTickListener(selectedCard1, selectedCard2));
+						flipCardsBackTimer.start();
 					}
 					selectedCard1 = null;
 					selectedCard2 = null;
