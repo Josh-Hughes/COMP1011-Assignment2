@@ -35,6 +35,7 @@ public class Card extends JButton {
 		
 		//Set the configuration for the appearance
 		setIcon(cardBack);
+		setDisabledIcon(cardBack);
 		setRolloverIcon(cardBackHighlight);
 		setRolloverEnabled(true);
 		
@@ -53,6 +54,7 @@ public class Card extends JButton {
 	
 	public void hideCard(){
 		setIcon(cardBack);
+		setDisabledIcon(cardBack);
 		setRolloverIcon(cardBackHighlight);
 	}
 	
@@ -76,6 +78,7 @@ public class Card extends JButton {
 	
 	public void showCard() {
 		setIcon(cardNumber);
+		setDisabledIcon(cardNumber);
 		setRolloverIcon(cardNumber);
 	}
 	

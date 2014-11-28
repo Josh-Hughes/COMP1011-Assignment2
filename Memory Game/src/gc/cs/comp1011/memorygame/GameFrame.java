@@ -278,6 +278,7 @@ public class GameFrame extends JFrame {
 			for(int y=0; y<CARDS_PER_COLUMN;y++){
 				//newGame();
 				cards[x][y].setVisible(true);
+				cards[x][y].setEnabled(true);
 				cards[x][y].hideCard();
 			}
 		}
@@ -309,6 +310,8 @@ public class GameFrame extends JFrame {
 			timer.stop();
 			card1.hideCard();
 			card2.hideCard();
+			card1.setEnabled(true);
+			card2.setEnabled(true);
 		}
 		
 	}
@@ -357,13 +360,20 @@ public class GameFrame extends JFrame {
 						
 						scoreboard.addScore(1);
 						
-						//selectedCard1.setEnabled(false);
-						//selectedCard2.setEnabled(false);
+						// This will stop the cards from being clicked again after being matched.
+						// They will be re-enabled once the game is reset.
+						selectedCard1.setEnabled(false);
+						selectedCard2.setEnabled(false);
 						
 						hideMatchedCardsTimer = new Timer(HIDE_MATCHED_CARDS_DELAY, new HideMatchedCardsTimerTickListener(selectedCard1, selectedCard2));
 						hideMatchedCardsTimer.start();
 					} else {
 						userMessage.setText(GameMessages.WRONG_MATCH.getMessage());
+						
+						// This will stop the cards from being clicked again after being mismatched.
+						// They will be re-enabled after the timer delay when they are flipped back again.
+						selectedCard1.setEnabled(false);
+						selectedCard2.setEnabled(false);
 						
 						flipCardsBackTimer = new Timer(FLIP_CARDS_BACK_DELAY, new FlipCardsBackTimerTickListener(selectedCard1, selectedCard2));
 						flipCardsBackTimer.start();
