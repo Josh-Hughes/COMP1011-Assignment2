@@ -291,6 +291,8 @@ public class GameFrame extends JFrame {
 	}
 	
 	class CardClickListener implements ActionListener {
+		
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			// Start the countdown timer if it's not started yet.
 			if (!countdownTimer.isRunning()) {
@@ -321,6 +323,7 @@ public class GameFrame extends JFrame {
 			// Reveal the card face.
 			clickedCard.showCard();
 		}
+		
 	}
 		
 	class ExitButtonListener implements ActionListener {
@@ -342,10 +345,11 @@ public class GameFrame extends JFrame {
 				for(int y=0; y<CARDS_PER_COLUMN;y++){
 					//newGame();
 					cards[x][y].setVisible(true);
-					cards[x][y].hideCards();
+					cards[x][y].hideCard();
 				}
 			}
 		}
+		
 	}
 	
 	class PlayButtonListener implements ActionListener {
@@ -354,5 +358,6 @@ public class GameFrame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			
 		}
+		
 	}
 }

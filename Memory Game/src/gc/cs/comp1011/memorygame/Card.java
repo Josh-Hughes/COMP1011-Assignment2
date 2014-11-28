@@ -13,13 +13,13 @@ public class Card extends JButton {
 	//Object variables
 	private Icon cardNumber;
 	private Icon cardBack;
+	private Icon cardBackHighlight;
 	private String cardIdentity;
 	
 	public Card(String cardIdentity) {
 		super();
 
 		//Load images for the card button
-		Icon cardBackHighLight = null;
 		try{
 			cardBack = new ImageIcon(ImageIO.read(new File("resources/img/cardback.png")));
 		}
@@ -27,7 +27,7 @@ public class Card extends JButton {
 			e.printStackTrace();
 		}
 		try{
-			cardBackHighLight = new ImageIcon(ImageIO.read(new File("resources/img/cardback2.png")));
+			cardBackHighlight = new ImageIcon(ImageIO.read(new File("resources/img/cardback2.png")));
 		}
 		catch(IOException e){
 			e.printStackTrace();
@@ -35,7 +35,7 @@ public class Card extends JButton {
 		
 		//Set the configuration for the appearance
 		setIcon(cardBack);
-		setRolloverIcon(cardBackHighLight);
+		setRolloverIcon(cardBackHighlight);
 		setRolloverEnabled(true);
 		
 		//Make button invisible
@@ -51,9 +51,9 @@ public class Card extends JButton {
 		return cardIdentity;
 	}
 	
-	public void hideCards(){
-		setRolloverEnabled(true);
+	public void hideCard(){
 		setIcon(cardBack);
+		setRolloverIcon(cardBackHighlight);
 	}
 	
 	private void setCardIdentity(String cardIdentity){
@@ -76,7 +76,7 @@ public class Card extends JButton {
 	
 	public void showCard() {
 		setIcon(cardNumber);
-		setRolloverEnabled(false);
+		setRolloverIcon(cardNumber);
 	}
 	
 }
