@@ -98,14 +98,7 @@ public class GameFrame extends JFrame {
 		scoreboard = new Scoreboard();
 
 		// Create the countdown timer.
-		countdownTimer = new Timer(COUNTDOWN_INTERVAL, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				countdown -= COUNTDOWN_DECREMENT;
-				//System.out.printf("\nTick %.1f", countdown);
-				timer.setText(String.format("%.1f", countdown));
-			}
-		});
+		countdownTimer = new Timer(COUNTDOWN_INTERVAL, new TimerTickListener());
 		
 		// Set the default countdown timer value.
 		countdown = COUNTDOWN_DEFAULT;
@@ -285,14 +278,16 @@ public class GameFrame extends JFrame {
 		
 		//System.out.println("No more repeated cards");
 	}
+	
+	class TimerTickListener implements ActionListener {
 
-	
-	public void setTimerText(String text) {
-		timer.setText(text);
-	}
-	
-	public void setUserMessageText(String text) {
-		userMessage.setText(text);
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			countdown -= COUNTDOWN_DECREMENT;
+			//System.out.printf("\nTick %.1f", countdown);
+			timer.setText(String.format("%.1f", countdown));
+		}
+		
 	}
 	
 	class CardClickListener implements ActionListener {
