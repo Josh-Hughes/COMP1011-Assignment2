@@ -30,7 +30,6 @@ public class GameFrame extends JFrame {
 	private final int CARDS_PER_ROW = 4;
 	private final int CARDS_PER_COLUMN = 4;
 	private final int AMOUNT_OF_CARDS = CARDS_PER_COLUMN * CARDS_PER_ROW;
-	private final int CARD_PANEL_ROWS = CARDS_PER_ROW + 1;
 	
 	private String[] cardList = new String[AMOUNT_OF_CARDS/2]; 
 	
@@ -117,10 +116,10 @@ public class GameFrame extends JFrame {
 		add(buttonPanel, BorderLayout.SOUTH);
 
 		// Create the buttons.
-		playButton = new JButton("Play Game");
+		playButton = new JButton("Play Again");
 		playButton.setEnabled(false);
-		exitButton = new JButton("Exit");
 		cheatButton = new JButton("Cheat");
+		exitButton = new JButton("Exit");
 		
 		// Add buttons to button panel.
 		buttonPanel.add(playButton);
@@ -176,12 +175,12 @@ public class GameFrame extends JFrame {
 		
 	} //constructor
 	
-	public void newGame(){
+	private void newGame(){
 		changeCards();
 		layoutGame();
 	}
 
-	public void layoutGame(){
+	private void layoutGame(){
 		//instance variables
 		Card temporaryCard;
 		int newXPosition = 0;
@@ -212,7 +211,7 @@ public class GameFrame extends JFrame {
 		}
 	}
 	
-	public void changeCards(){
+	private void changeCards(){
 		//instance variables
 		boolean repeatedCardFound = false;
 		int positionOfRepeatedCard = -1;
@@ -254,6 +253,24 @@ public class GameFrame extends JFrame {
 		//System.out.println("No more repeated cards");
 	}
 	
+	private void resetGame() {
+		countdownTimer.stop();
+		playButton.setEnabled(false);
+		cheatButton.setEnabled(true);
+
+		userMessage.setText(GameMessages.FIRST_CARD.getMessage());
+		timer.setText(String.format("%.1f", COUNTDOWN_DEFAULT));
+		
+		//Hide the cards
+		for(int x=0; x<CARDS_PER_ROW; x++){
+			for(int y=0; y<CARDS_PER_COLUMN;y++){
+				//newGame();
+				cards[x][y].setVisible(true);
+				cards[x][y].hideCard();
+			}
+		}
+	}
+	
 	class TimerTickListener implements ActionListener {
 
 		@Override
@@ -273,6 +290,8 @@ public class GameFrame extends JFrame {
 			if (!countdownTimer.isRunning()) {
 				countdownTimer.start();
 			}
+			
+			playButton.setEnabled(true);
 			
 			// Get the card that was clicked on.
 			Card clickedCard = (Card)e.getSource();
@@ -300,12 +319,11 @@ public class GameFrame extends JFrame {
 		}
 		
 	}
-		
+	
 	class ExitButtonListener implements ActionListener {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//userMessage.setText(GameMessages.SECOND_CARD.getMessage());
 			System.exit(0);
 		}
 		
@@ -315,12 +333,10 @@ public class GameFrame extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//Hide the cards
-			for(int x=0; x<CARDS_PER_ROW; x++){
-				for(int y=0; y<CARDS_PER_COLUMN;y++){
-					//newGame();
-					cards[x][y].setVisible(true);
-					cards[x][y].hideCard();
+			cheatButton.setEnabled(false);
+			for(int x = 0; x < CARDS_PER_ROW; x++){
+				for(int y = 0; y < CARDS_PER_COLUMN; y++){
+					cards[x][y].showCard();
 				}
 			}
 		}
@@ -331,7 +347,7 @@ public class GameFrame extends JFrame {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+			resetGame();
 		}
 		
 	}
