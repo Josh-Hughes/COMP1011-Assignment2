@@ -104,9 +104,6 @@ public class GameFrame extends JFrame {
 		// Create the card deck.
 		deck = new Deck();
 		
-		// Create the score board.
-		scoreboard = new Scoreboard();
-
 		// Create the countdown timer.
 		countdownTimer = new Timer(COUNTDOWN_INTERVAL, new TimerTickListener());
 		
@@ -142,7 +139,7 @@ public class GameFrame extends JFrame {
 		timerText = new JLabel("Time", SwingConstants.CENTER);
 		timer = new JLabel(String.format("%.1f", 60.0f), SwingConstants.CENTER);
 		scoreText = new JLabel("Score", SwingConstants.CENTER);
-		score = new JLabel(scoreboard.toString(), SwingConstants.CENTER);
+		score = new JLabel("", SwingConstants.CENTER);
 		userMessage = new JLabel(GameMessages.FIRST_CARD.getMessage(), SwingConstants.CENTER);
 
 		// Add labels to label panel.
@@ -175,6 +172,9 @@ public class GameFrame extends JFrame {
 			}
 		}
 		
+		// Create the score board.
+		scoreboard = new Scoreboard(score);
+
 		// Generate the board.
 		newGame();
 		 
@@ -270,6 +270,8 @@ public class GameFrame extends JFrame {
 
 		userMessage.setText(GameMessages.FIRST_CARD.getMessage());
 		timer.setText(String.format("%.1f", COUNTDOWN_DEFAULT));
+
+		scoreboard.resetScore();
 		
 		//Hide the cards
 		for(int x=0; x<CARDS_PER_ROW; x++){
@@ -352,6 +354,11 @@ public class GameFrame extends JFrame {
 					selectedCard2 = clickedCard;
 					if (selectedCard1.getCardIdentity().equals(selectedCard2.getCardIdentity())) {
 						userMessage.setText(GameMessages.RIGHT_MATCH.getMessage());
+						
+						scoreboard.addScore(1);
+						
+						//selectedCard1.setEnabled(false);
+						//selectedCard2.setEnabled(false);
 						
 						hideMatchedCardsTimer = new Timer(HIDE_MATCHED_CARDS_DELAY, new HideMatchedCardsTimerTickListener(selectedCard1, selectedCard2));
 						hideMatchedCardsTimer.start();
