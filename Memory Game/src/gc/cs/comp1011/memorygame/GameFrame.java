@@ -351,12 +351,12 @@ public class GameFrame extends JFrame {
 				if (!selectedCard1.equals(clickedCard)) {
 					selectedCard2 = clickedCard;
 					if (selectedCard1.getCardIdentity().equals(selectedCard2.getCardIdentity())) {
-						userMessage.setText(GameMessages.RIGHT_MATCH.getMessage() + " [" + selectedCard1.getCardIdentity() + " == " + selectedCard2.getCardIdentity() + "]");
+						userMessage.setText(GameMessages.RIGHT_MATCH.getMessage());
 						
 						hideMatchedCardsTimer = new Timer(HIDE_MATCHED_CARDS_DELAY, new HideMatchedCardsTimerTickListener(selectedCard1, selectedCard2));
 						hideMatchedCardsTimer.start();
 					} else {
-						userMessage.setText(GameMessages.WRONG_MATCH.getMessage() + " [" + selectedCard1.getCardIdentity() + " != " + selectedCard2.getCardIdentity() + "]");
+						userMessage.setText(GameMessages.WRONG_MATCH.getMessage());
 						
 						flipCardsBackTimer = new Timer(FLIP_CARDS_BACK_DELAY, new FlipCardsBackTimerTickListener(selectedCard1, selectedCard2));
 						flipCardsBackTimer.start();
