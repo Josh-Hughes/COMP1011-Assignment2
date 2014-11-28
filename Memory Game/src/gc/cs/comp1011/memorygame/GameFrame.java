@@ -269,7 +269,8 @@ public class GameFrame extends JFrame {
 		cheatButton.setEnabled(true);
 
 		userMessage.setText(GameMessages.FIRST_CARD.getMessage());
-		timer.setText(String.format("%.1f", COUNTDOWN_DEFAULT));
+		countdown = COUNTDOWN_DEFAULT;
+		timer.setText(String.format("%.1f", countdown));
 
 		scoreboard.resetScore();
 		
