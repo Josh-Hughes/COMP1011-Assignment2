@@ -285,6 +285,9 @@ public class GameFrame extends JFrame {
 		// Start the countdown timer if it's not started yet.
 		if (!countdownTimer.isRunning()) {
 			countdownTimer.start();
+			
+			playButton.setText("Reset");
+			playButton.setEnabled(true);
 		}
 	}//startTimer
 	
@@ -304,7 +307,7 @@ public class GameFrame extends JFrame {
 			}
 		}
 		
-		System.out.println("The game is over?: "+allCardsPaired);
+		//System.out.println("The game is over?: "+allCardsPaired);
 		return allCardsPaired;
 	}//CheckGameStatus
 	
@@ -317,10 +320,8 @@ public class GameFrame extends JFrame {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-			
-			//playButton.setEnabled(true);
-			playButton.setEnabled(false);
+			// Start timer when card clicked
+			StartTimer();
 			
 			// Get the card that was clicked on.
 			Card clickedCard = (Card)e.getSource();
@@ -423,7 +424,14 @@ public class GameFrame extends JFrame {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			StartTimer();
+			if(!playButton.getText().equals("Reset")){
+				StartTimer();
+			}else{
+				playButton.setText("Play");
+				playButton.setEnabled(true);
+				NewGame();
+			}
+			
 		}
 		
 	}//PlayButtonListener
