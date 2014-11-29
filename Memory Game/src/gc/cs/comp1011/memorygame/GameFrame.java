@@ -468,16 +468,25 @@ public class GameFrame extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			//Check if the time is out
 			if (countdown <= 0) {
 				countdownTimer.stop();
 				countdown = COUNTDOWN_DEFAULT;
+				
+				//Send the user the message of lost game
 				String gameOver = String.format(GameMessages.LOSE_GAME.getMessage(), scoreboard.getScore());
 				userMessage.setText(gameOver);
+				
+				//Save highest score
 				if (highScoreboard.getScore() < scoreboard.getScore()) {
 					highScoreboard.setScore(scoreboard.getScore());
 				}
-				JOptionPane.showMessageDialog(GameFrame.this, gameOver);
+				
+				//Start new game
 				NewGame();
+				
+				//Show the message
+				JOptionPane.showMessageDialog(GameFrame.this, gameOver);
 			} else {
 				countdown -= COUNTDOWN_DECREMENT;
 				timer.setText(String.format("%.1f", countdown));
