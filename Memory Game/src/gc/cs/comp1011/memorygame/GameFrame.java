@@ -351,11 +351,19 @@ public class GameFrame extends JFrame {
 			Card clickedCard = (Card)e.getSource();
 			
 			if (selectedCard1 == null) {
+				// Reveal the card face.
+				clickedCard.showCard();
+				
 				selectedCard1 = clickedCard;
+				
 				userMessage.setText(GameMessages.SECOND_CARD.getMessage());
 			} else {
 				if (!selectedCard1.equals(clickedCard)) {
+					// Reveal the card face.
+					clickedCard.showCard();
+
 					selectedCard2 = clickedCard;
+					
 					if (selectedCard1.getCardIdentity().equals(selectedCard2.getCardIdentity())) {
 						userMessage.setText(GameMessages.RIGHT_MATCH.getMessage());
 						
@@ -381,11 +389,12 @@ public class GameFrame extends JFrame {
 					}
 					selectedCard1 = null;
 					selectedCard2 = null;
+				} else {
+					selectedCard1.hideCard();
+					selectedCard1 = null;
+					userMessage.setText(GameMessages.FIRST_CARD.getMessage());
 				}
 			}
-						
-			// Reveal the card face.
-			clickedCard.showCard();
 		}
 		
 	}
