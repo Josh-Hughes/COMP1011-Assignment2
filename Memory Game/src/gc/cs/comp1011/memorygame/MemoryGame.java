@@ -1,12 +1,8 @@
 /**
+ * @filename: MemoryGame.java
  * @author Josh Hughes & Luis Acevedo
- * @version November 12th, 2014
- * @revision_history:
- * 2014-11-12:
- * Tested initial configuration
- * 2014-11-23:
- * Removed all control variables
- * 
+ * @version November 28th, 2014
+ * @description Main method to call the game
  */
 package gc.cs.comp1011.memorygame;
 

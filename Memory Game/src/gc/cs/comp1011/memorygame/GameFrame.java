@@ -1,12 +1,10 @@
 /**
+ * @filename: GameFrame.java
  * @author Josh Hughes & Luis Acevedo
- * @version November 12th, 2014
- * @revision_history:
- * 2014-11-12:
- * Created the initial configuration for the screen
- * 2014-11-23:
- * Added all control variables to class
- */
+ * @version November 28th, 2014
+ * @description This class contains the frame and the main logic of the game.
+*/ 
+
 package gc.cs.comp1011.memorygame;
 
 import java.awt.*;
@@ -96,7 +94,7 @@ public class GameFrame extends JFrame {
 
 	/* Methods */
 	/**
-	 * 
+	 * Constructor for the class of GameFrame. Starts the frame with all of the defined components 
 	 */
 	public GameFrame() {
 		// Call the super class JFrame constructor.
@@ -170,7 +168,6 @@ public class GameFrame extends JFrame {
 		deck = new Deck();
 		// Create the array of cards.
 		cards = new Card[CARDS_PER_ROW][CARDS_PER_COLUMN];
-		
 		for(int x=0; x<CARDS_PER_ROW; x++){
 			for(int y=0; y<CARDS_PER_COLUMN;y++){
 				cards[x][y] = new Card(deck.getRandomCard());
@@ -194,7 +191,7 @@ public class GameFrame extends JFrame {
 	
 	// Methods
 	/**
-	 * 
+	 * Starts a new game.
 	 */
 	private void NewGame(){
 		//New board with cards
@@ -205,7 +202,7 @@ public class GameFrame extends JFrame {
 	}//NewGame
 	
 	/**
-	 * 
+	 * Changes the cards on the board. Restarts the deck
 	 */
 	private void ChangeCards(){
 		// Restart the deck for a new game
@@ -221,7 +218,7 @@ public class GameFrame extends JFrame {
 	}//ChangeCards
 	
 	/**
-	 * 
+	 * Places all the card objects on the frame
 	 */
 	private void LayoutGame(){
 		//instance variables
@@ -235,6 +232,7 @@ public class GameFrame extends JFrame {
 				newXPosition = (int) (Math.random() *  CARDS_PER_ROW);
 				newYPosition = (int) (Math.random() *  CARDS_PER_COLUMN);
 				
+				//Moves the cards around
 				temporaryCard = cards[x][y];
 				cards[x][y] = cards[newXPosition][newYPosition];
 				cards[newXPosition][newYPosition] = temporaryCard;
@@ -254,18 +252,20 @@ public class GameFrame extends JFrame {
 	}//LayoutGame
 	
 	/**
-	 * 
+	 * Restarts the current score labels and timer. Turns the cards around
 	 */
 	private void ResetGame() {
 		countdownTimer.stop();
 		
 		//playButton.setEnabled(false);
 		cheatButton.setEnabled(true);
-
+		
+		//Calls the enum type according to be first turn of the game
 		userMessage.setText(GameMessages.FIRST_CARD.getMessage());
 		countdown = COUNTDOWN_DEFAULT;
 		timer.setText(String.format("%.1f", countdown));
 
+		//Resets the current score
 		scoreboard.resetScore();
 		
 		//Hide the cards
@@ -280,7 +280,7 @@ public class GameFrame extends JFrame {
 	}//ResetGame
 	
 	/**
-	 * 
+	 * Starts the timer if it not started. Enables the play again button
 	 */
 	private void StartTimer(){
 		// Start the countdown timer if it's not started yet.
@@ -292,8 +292,8 @@ public class GameFrame extends JFrame {
 	}//startTimer
 	
 	/**
-	 * 
-	 * @return
+	 * Checks if the game was won or not.
+	 * @return True if the game is completed. False if not
 	 */
 	private boolean CheckGameStatus(){
 		boolean allCardsPaired = true;
@@ -313,15 +313,21 @@ public class GameFrame extends JFrame {
 	
 	// Button Classes
 	/**
-	 * 
-	 *
+	 * This class controls the events of the card clicking
 	 */
 	class CardClickListener implements ActionListener {
 		
+		/**
+		 * Game logic of the cards on click events
+		 * @param e the event of the click event
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// Start timer when card clicked
 			StartTimer();
+			
+			//Enable the play button
+			playButton.setEnabled(true);
 			
 			// Get the card that was clicked on.
 			Card clickedCard = (Card)e.getSource();
@@ -330,19 +336,25 @@ public class GameFrame extends JFrame {
 				// Reveal the card face.
 				clickedCard.showCard();
 				
+				//Assign card selected to the clicked one
 				selectedCard1 = clickedCard;
 				
+				//Tell the user to pick the other one
 				userMessage.setText(GameMessages.SECOND_CARD.getMessage());
 			} else {
 				if (!selectedCard1.equals(clickedCard)) {
 					// Reveal the card face.
 					clickedCard.showCard();
-
+					
+					//Assign card 2 to the clicked one
 					selectedCard2 = clickedCard;
 					
+					//Check if the cards are the same
 					if (selectedCard1.getCardIdentity().equals(selectedCard2.getCardIdentity())) {
+						//Tell user he matched
 						userMessage.setText(GameMessages.RIGHT_MATCH.getMessage());
 						
+						//Add 1 pts to score
 						scoreboard.addScore(1);
 						
 						// This will stop the cards from being clicked again after being matched.
@@ -350,15 +362,16 @@ public class GameFrame extends JFrame {
 						selectedCard1.setEnabled(false);
 						selectedCard2.setEnabled(false);
 						
+						//Hide the cards from the game
 						hideMatchedCardsTimer = new Timer(HIDE_MATCHED_CARDS_DELAY, new HideMatchedCardsTimerTickListener(selectedCard1, selectedCard2));
 						hideMatchedCardsTimer.start();
 						
 						//Change status of the card
 						selectedCard1.setIsCardPaired(true);
 						selectedCard2.setIsCardPaired(true);
-		
 						
 					} else {
+						//Tell user he mismatched
 						userMessage.setText(GameMessages.WRONG_MATCH.getMessage());
 						
 						// This will stop the cards from being clicked again after being mismatched.
@@ -366,14 +379,20 @@ public class GameFrame extends JFrame {
 						selectedCard1.setEnabled(false);
 						selectedCard2.setEnabled(false);
 						
+						//Flip the mistmatched cards
 						flipCardsBackTimer = new Timer(FLIP_CARDS_BACK_DELAY, new FlipCardPairBackTimerTickListener(selectedCard1, selectedCard2));
 						flipCardsBackTimer.start();
 					}
+					
+					//Clear the cards for new pair
 					selectedCard1 = null;
 					selectedCard2 = null;
 				} else {
+					//Hide the cards and clear if user re clicks the selected card
 					selectedCard1.hideCard();
 					selectedCard1 = null;
+					
+					//Send the message to pick a new one
 					userMessage.setText(GameMessages.FIRST_CARD.getMessage());
 				}
 			}
@@ -382,10 +401,14 @@ public class GameFrame extends JFrame {
 	}//CardClickListener
 	
 	/**
-	 * 
-	 *
+	 * Quits the game
 	 */
 	class ExitButtonListener implements ActionListener {
+		
+		/**
+		 * Hears the event of click on the exit button
+		 * @param click event
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.exit(0);
@@ -393,12 +416,15 @@ public class GameFrame extends JFrame {
 	}//ExitButtonListener
 	
 	/**
-	 * 
-	 *
+	 * Hears the event of click on the Cheat button
 	 */
 	class CheatButtonListener implements ActionListener {
+		/**
+		 * Check if the user wants to cheat. Only 1 chance given.
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			//Start the game on cheat
 			StartTimer();
 			
 			//Disable the button since it was clicked
@@ -411,28 +437,31 @@ public class GameFrame extends JFrame {
 				}
 			}
 			
+			//Turns the card after cheat used
 			flipGameBackTimer = new Timer(HIDE_CARDS_AFTER_CHEAT_DELAY, new FlipGameBackTimerTickListener(cards));
 			flipGameBackTimer.start();
 		}
 	}//CheatButtonListener
 	
 	/**
-	 * 
-	 *
+	 * Hears the event of play button clicked
 	 */
 	class PlayButtonListener implements ActionListener {
 		
+		/**
+		 * Check if the user clicked the PlayButton. Starts a new game.
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			NewGame();
+			playButton.setEnabled(false);
 		}
 		
 	}//PlayButtonListener
 	
 	// Timer Classes
 	/**
-	 * 
-	 *
+	 * Timer for the tick event
 	 */
 	class TimerTickListener implements ActionListener {
 
@@ -456,45 +485,66 @@ public class GameFrame extends JFrame {
 	}//TimerTickListener
 	
 	/**
-	 * 
-	 *
+	 * Flips the card on when a pair is found
 	 */
 	class FlipCardPairBackTimerTickListener implements ActionListener {
-
+		//Variable definition
 		private Card card1, card2;
 		
+		/**
+		 * Constructor for the FlipCardPairBackTimerTickListener
+		 * @param card1 to be flipped
+		 * @param card2 to be flipped
+		 */
 		public FlipCardPairBackTimerTickListener(Card card1, Card card2) {
 			this.card1 = card1;
 			this.card2 = card2;
 		}
 		
+		/**
+		 * Controls the event after the time is done
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			//Gets the current timer
 			Timer timer = (Timer)e.getSource();
 			timer.stop();
+			
+			//Hides the cards
 			card1.hideCard();
 			card2.hideCard();
+			
+			//refresh the card
 			card1.setEnabled(true);
 			card2.setEnabled(true);
 		}
 	}//FlipCardPairBackTimerTickListener
 	
 	/**
-	 * 
-	 *
+	 * Flips the game after the cheat button is clicked
 	 */
 	class FlipGameBackTimerTickListener implements ActionListener{
+		//variable definition
 		private Card[][] card;
 		
+		/**
+		 * Constructor for the FlipGameBackTimerTickListener class
+		 * @param card array of the cards to be flipped
+		 */
 		public FlipGameBackTimerTickListener(Card[][] card){
 			this.card = card;
 		}
 		
+		/**
+		 * Controls the logic and the time to flip the array of card
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			//gets the current timer
 			Timer timer = (Timer)e.getSource();
 			timer.stop();
 			
+			//Flips the whole game
 			for(int x=0; x<CARDS_PER_ROW; x++){
 				for(int y=0; y<CARDS_PER_COLUMN;y++){
 					card[x][y].hideCard();
@@ -505,22 +555,32 @@ public class GameFrame extends JFrame {
 	}//FlipGameBackTimerTickListener
 	
 	/**
-	 * 
-	 *
+	 * Hides the matched cards after a brief delay
 	 */
 	class HideMatchedCardsTimerTickListener implements ActionListener {
-
+		//Variable definition
 		private Card card1, card2;
 		
+		/**
+		 * Constructor for the HideMatchedCardsTimerTickListener object
+		 * @param card1 to be hidden
+		 * @param card2 to be hidden
+		 */
 		public HideMatchedCardsTimerTickListener(Card card1, Card card2) {
 			this.card1 = card1;
 			this.card2 = card2;
 		}
 		
+		/**
+		 * Controls the logic to hide the cards after a brief period of time if matched together
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			//Get the curren timer
 			Timer timer = (Timer)e.getSource();
 			timer.stop();
+			
+			//Cards are set invisible
 			card1.setVisible(false);
 			card2.setVisible(false);
 			
