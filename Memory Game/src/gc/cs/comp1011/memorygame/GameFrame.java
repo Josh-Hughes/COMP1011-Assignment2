@@ -129,9 +129,8 @@ public class GameFrame extends JFrame {
 		add(buttonPanel, BorderLayout.SOUTH);
 
 		// Create the buttons.
-		/*playButton = new JButton("Play Again");
-		playButton.setEnabled(false);*/
-		playButton = new JButton("Play");
+		playButton = new JButton("Play Again");
+		playButton.setEnabled(false);
 		cheatButton = new JButton("Cheat");
 		exitButton = new JButton("Exit");
 		
@@ -288,7 +287,6 @@ public class GameFrame extends JFrame {
 		if (!countdownTimer.isRunning()) {
 			countdownTimer.start();
 			
-			playButton.setText("Reset");
 			playButton.setEnabled(true);
 		}
 	}//startTimer
@@ -426,14 +424,7 @@ public class GameFrame extends JFrame {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(!playButton.getText().equals("Reset")){
-				StartTimer();
-			}else{
-				playButton.setText("Play");
-				playButton.setEnabled(true);
-				NewGame();
-			}
-			
+			NewGame();
 		}
 		
 	}//PlayButtonListener
