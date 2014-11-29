@@ -88,6 +88,7 @@ public class GameFrame extends JFrame {
 	
 	// The score board keeps track of the player's score.
 	private Scoreboard scoreboard;
+	private Scoreboard highScoreboard;
 
 	// The cards selected by the player, null if not yet picked. 
 	private Card selectedCard1 = null;
@@ -180,6 +181,7 @@ public class GameFrame extends JFrame {
 		
 		// Create the score board.
 		scoreboard = new Scoreboard(score);
+		highScoreboard = new Scoreboard(highScore);
 		
 		// Add button event handling.
 		exitButton.addActionListener(new ExitButtonListener());
@@ -521,8 +523,16 @@ public class GameFrame extends JFrame {
 			
 			//Check if the game is finished
 			if(CheckGameStatus()){
-				ResetGame();
+				//Grab the current score
+				int currentScore = scoreboard.getScore();
+				
+				NewGame();
 				StartTimer();
+				
+				scoreboard.setScore(currentScore);
+				
+				if(currentScore > highScoreboard.getScore())
+					highScoreboard.setScore(currentScore);
 			}
 		}
 		
