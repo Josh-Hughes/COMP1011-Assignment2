@@ -15,6 +15,7 @@ public class Card extends JButton {
 	private Icon cardBack;
 	private Icon cardBackHighlight;
 	private String cardIdentity;
+	private boolean isCardPaired;
 	
 	public Card(String cardIdentity) {
 		super();
@@ -46,6 +47,9 @@ public class Card extends JButton {
 		
 		//Set the card to appear
 		setDefinedCard(cardIdentity);
+		
+		//Set the card to not paired
+		setIsCardPaired(false);
 	}
 	
 	public String getCardIdentity(){
@@ -80,6 +84,14 @@ public class Card extends JButton {
 		setIcon(cardNumber);
 		setDisabledIcon(cardNumber);
 		setRolloverIcon(cardNumber);
+	}
+	
+	public void setIsCardPaired(boolean isCardPaired){
+		this.isCardPaired = isCardPaired;
+	}
+	
+	public boolean getIsCardPaired(){
+		return isCardPaired;
 	}
 	
 }
