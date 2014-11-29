@@ -84,7 +84,7 @@ public class GameFrame extends JFrame {
 	// A timer that will hide the game cards after a delay
 	private Timer flipGameBackTimer;
 	//The delay before hiding the cards when clicking the cheat button
-	private final int HIDE_CARDS_AFTER_CHEAT_DELAY = 1000;
+	private final int HIDE_CARDS_AFTER_CHEAT_DELAY = 1500;
 	
 	// The score board keeps track of the player's score.
 	private Scoreboard scoreboard;
@@ -437,9 +437,21 @@ public class GameFrame extends JFrame {
 	class TimerTickListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			countdown -= COUNTDOWN_DECREMENT;
-			timer.setText(String.format("%.1f", countdown));
+		public void actionPerformed(ActionEvent e) {
+			if (countdown <= 0) {
+				countdownTimer.stop();
+				countdown = COUNTDOWN_DEFAULT;
+				String gameOver = String.format(GameMessages.LOSE_GAME.getMessage(), scoreboard.getScore());
+				userMessage.setText(gameOver);
+				if (highScoreboard.getScore() < scoreboard.getScore()) {
+					highScoreboard.setScore(scoreboard.getScore());
+				}
+				JOptionPane.showMessageDialog(GameFrame.this, gameOver);
+				NewGame();
+			} else {
+				countdown -= COUNTDOWN_DECREMENT;
+				timer.setText(String.format("%.1f", countdown));
+			}
 		}
 	}//TimerTickListener
 	
@@ -514,16 +526,15 @@ public class GameFrame extends JFrame {
 			
 			//Check if the game is finished
 			if(CheckGameStatus()){
-				//Grab the current score
-				int currentScore = scoreboard.getScore();
-				
+				countdownTimer.stop();
+				countdown = COUNTDOWN_DEFAULT;
+				String gameOver = String.format(GameMessages.WIN_GAME.getMessage(), scoreboard.getScore());
+				userMessage.setText(gameOver);
+				if (highScoreboard.getScore() < scoreboard.getScore()) {
+					highScoreboard.setScore(scoreboard.getScore());
+				}
+				JOptionPane.showMessageDialog(GameFrame.this, gameOver);
 				NewGame();
-				StartTimer();
-				
-				scoreboard.setScore(currentScore);
-				
-				if(currentScore > highScoreboard.getScore())
-					highScoreboard.setScore(currentScore);
 			}
 		}
 		

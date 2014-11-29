@@ -6,8 +6,8 @@ public enum GameMessages {
 	SECOND_CARD("Now pick another card."),
 	RIGHT_MATCH("Right! Pick again..."),
 	WRONG_MATCH("Wrong! Pick again..."),
-	WIN_GAME("You win!"),
-	LOSE_GAME("Times up! Game over.");
+	WIN_GAME("You won! Your final score is %d!"),
+	LOSE_GAME("Times up! Your final score is %d");
 	
 	// Enum instance variables
 	private final String message;
