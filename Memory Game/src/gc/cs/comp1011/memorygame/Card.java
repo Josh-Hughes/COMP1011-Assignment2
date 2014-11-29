@@ -1,6 +1,8 @@
 package gc.cs.comp1011.memorygame;
 /**
- * This method creates the object of type card. This will have every property of the JButton class
+ * @author Josh Hughes & Luis Acevedo
+ * @version November 28th, 2014
+ * @description This class is the card class, it will have the face of the card. Extends from a JButton
  */
 import java.io.File;
 import java.io.IOException;

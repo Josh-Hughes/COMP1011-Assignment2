@@ -1,11 +1,7 @@
 /**
  * @author Josh Hughes & Luis Acevedo
- * @version November 12th, 2014
- * @revision_history:
- * 2014-11-12:
- * Created the initial configuration for the screen
- * 2014-11-23:
- * Added all control variables to class
+ * @version November 28th, 2014
+ * @description This class contains the frame and the main logic of the game.
  */
 package gc.cs.comp1011.memorygame;
 
