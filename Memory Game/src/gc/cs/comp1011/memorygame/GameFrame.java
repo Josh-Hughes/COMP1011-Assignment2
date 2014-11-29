@@ -259,6 +259,7 @@ public class GameFrame extends JFrame {
 		
 		//playButton.setEnabled(false);
 		cheatButton.setEnabled(true);
+		playButton.setEnabled(false);
 		
 		//Calls the enum type according to be first turn of the game
 		userMessage.setText(GameMessages.FIRST_CARD.getMessage());
@@ -593,8 +594,9 @@ public class GameFrame extends JFrame {
 				if (highScoreboard.getScore() < scoreboard.getScore()) {
 					highScoreboard.setScore(scoreboard.getScore());
 				}
-				JOptionPane.showMessageDialog(GameFrame.this, gameOver);
 				NewGame();
+				JOptionPane.showMessageDialog(GameFrame.this, gameOver);
+				
 			}
 		}
 		
